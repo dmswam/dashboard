@@ -15,7 +15,7 @@ html, body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #01386A; /* Warna latar belakang halaman */
+  background-color: #D9D9D9; /* Warna latar belakang halaman */
 }
 
 
@@ -349,450 +349,336 @@ body.no-scroll {
 }
 
 
-/* --- KONTEN UTAMA DASHBOARD --- */
-.dashboard-content {
-  flex-grow: 1;
-  padding: 20px;
-  overflow-y: auto; /* Memungkinkan konten dashboard di-scroll jika panjang */
-  overflow-x: hidden; /* Default hidden, kita akan override jika ada elemen yang butuh scroll di dalamnya */
-  box-sizing: border-box;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
 
-.main-content {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  flex-grow: 1;
-  width: 100%;
-}
 
-.card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  padding: 20px;
-  min-width: 300px;
-  box-sizing: border-box;
-  flex: 1;
-  overflow-x: hidden;
-}
 
-/* Contoh: Jika ada tabel di dalam card yang bisa menyebabkan scroll horizontal */
-.table-responsive {
-  overflow-x: auto; /* Ini yang akan membuat tabel bisa di-scroll horizontal */
-  -webkit-overflow-scrolling: touch; /* Untuk pengalaman scroll yang lebih baik di iOS */
-}
-
-.sales-chart-card {
-  flex-basis: 100%;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  overflow-x: auto; /* Izinkan scroll horizontal jika chart terlalu lebar */
-}
-#salesChart {
-  flex-grow: 1;
-  max-height: 320px;
-}
-
-.period-display {
-  text-align: right;
-  font-size: 0.9em;
-  color: #666;
-  margin-top: 10px;
-}
-
-.bottom-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  width: 100%;
-}
-
-.production-card {
-  flex: 1;
-  min-width: 300px;
-  overflow-x: hidden;
-}
-
-.product-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  font-size: 0.9em;
-}
-
-.product-item span {
-  flex-basis: 100px;
-  margin-right: 15px;
-  white-space: nowrap;
-}
-
-.progress-bar-container {
-  flex-grow: 1;
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  height: 20px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  text-align: center;
-  color: white;
-  line-height: 20px;
-  border-radius: 5px;
-  transition: width 0.5s ease-in-out;
-  font-size: 0.8em;
-}
-
-.warehouse-map-card {
-  flex: 2;
-  min-width: 400px;
-  display: flex;
-  flex-direction: column;
-  overflow-x: auto;
-}
-
-.map-container {
-  height: 300px;
-  width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  background-color: #f0f0f0;
-  display: flex;
+.atas{
+    position: fixed;
+    top: 90px !important; /* Jarak dari navbar */
+    left: 250px; /* Menyesuaikan dengan sidebar */
+    width: calc(100% - 250px); /* Supaya tabel tidak melebar ke sidebar */
+    display: flex;
+    /* justify-content: flex-start; */
+    padding: 20px;
   justify-content: center;
-  align-items: center;
-  color: #999;
+  gap: 120px;
+  height: 100px;
+  width:961px;
+  margin-right: 100px;
 }
 
-/* --- SIDEBAR KONTEN (Forum Diskusi) --- */
-.sidebar {
-  width: 280px;
-  background-color: #f8f8f8;
-  padding: 20px;
-  box-shadow: -2px 0 5px rgba(0,0,0,0.1);
-  flex-shrink: 0;
-  height: fit-content;
-  box-sizing: border-box;
-  overflow-x: hidden;
+
+
+
+.isi-co{
+    background-color: #fff;
+   
+    padding-left: 20px; /* Memberi sedikit ruang di sekitar konten */
+    padding-right: 20px; /* Memberi sedikit ruang di sekitar konten */
+    max-width: 1200px; /* Batasi lebar maksimum agar tidak terlalu lebar di layar besar */
+    margin: 20px auto; /* Pusatkan div secara horizontal */
+    background-color: #fff; /* Warna latar belakang kontainer */
+    border-radius: 8px; /* Sudut membulat */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sedikit bayangan */
+  
 }
 
-.forum-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
+
+
+  .isi-co .pj {
+    font-size: 2em; /* Ukuran font relatif */
+    color: #01386A;
+    font-style: italic;
 }
 
-.forum-card h3 {
-  margin: 0;
-  color: #4CAF50;
-  font-size: 1.2em;
+.add {
+ 
+  text-align: right; /* Posisikan tombol ke kanan */
+  margin-bottom: 15px; /* Jarak bawah dari tombol */
 }
 
-.forum-button {
-  background: none;
+.add button {
+  background-color: #01386A; /* Warna biru */
+  color: #fff; /* Warna teks putih */
   border: none;
-  font-size: 1.2em;
+  padding: 10px 15px;
+  border-radius: 5px;
   cursor: pointer;
-  padding: 5px;
-  border-radius: 50%;
-  transition: background-color 0.2s;
-}
-.forum-button:hover {
-  background-color: #e0e0e0;
-}
-.forum-icon-header {
-  width: 20px;
-  height: 20px;
-  opacity: 0.7;
-}
-
-.forum-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.forum-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 15px;
-  padding: 8px 0;
-}
-
-.forum-item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-}
-
-.forum-avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 12px;
-  border: 2px solid #007bff;
-}
-
-.forum-details {
-  flex-grow: 1;
-}
-
-.forum-details h4 {
-  margin: 0;
   font-size: 1em;
-  color: #333;
+  transition: background-color 0.3s ease; /* Efek transisi saat hover */
 }
-
-.forum-details .status {
-  font-size: 0.8em;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-.forum-details .status.online {
-  color: #28a745;
-}
-.forum-details .status.offline {
-  color: #dc3545;
+.add button:hover {
+  background-color: #0056b3; /* Warna biru lebih gelap saat hover */
 }
 
 
-/* ========================================================= */
-/* --- MEDIA QUERIES UNTUK RESPONSIVITAS --- */
-/* ========================================================= */
 
-/* Untuk layar dengan lebar maksimum 1200px (misalnya, laptop kecil atau tablet landscape) */
-@media (max-width: 1200px) {
-  .main-header {
-      padding: 10px 15px;
+
+
+
+
+
+.input-group label {
+    /* display: block; */
+    margin-bottom: 5px;
+    
   }
-  .dashboard-content {
-      padding: 15px;
+  
+  .input-group input {
+    width: 200px;
+    height: 30px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #EAEAEA;
   }
-  .card {
-      min-width: 280px;
+  
+  .input-group small {
+    color: #888;
+    
   }
-  .warehouse-map-card {
-      min-width: 350px;
+
+  #tipe{
+    margin-bottom: 20px;
   }
+
+.isi-tabel{
+    background-color: #fff;
+    height: 500px;
 }
 
-/* Untuk layar dengan lebar maksimum 992px (misalnya, tablet portrait) */
-@media (max-width: 992px) {
-  .main-layout-container {
-      flex-direction: column;
-      height: auto;
-      margin-top: 60px;
-      width: 100%;
-      overflow-x: hidden;
+.table-container {
+  overflow-x: auto; /* Memungkinkan tabel di-scroll secara horizontal jika terlalu lebar */
+  -webkit-overflow-scrolling: touch; /* Meningkatkan pengalaman scrolling di perangkat sentuh */
+  margin-top: 20px; /* Jarak atas dari tabel */
+}
+
+.table {
+  width: 100%; /* Lebar tabel 100% dari parent container */
+  border-collapse: collapse; /* Gabungkan border sel */
+  min-width: 600px; /* Tetapkan lebar minimum untuk tabel agar tidak terlalu sempit di mobile */
+}
+
+
+
+
+
+
+#idAnggota{
+    height: 30px;
+    width: 200px;
+}
+#namaAnggota{
+    height: 30px;
+    width: 250px;
+    
+}
+#Jabatan{
+    height: 30px;
+    width: 200px;
+   
+}
+
+#keterangan{
+    height: 30px;
+    width: 250px;
+   
+}
+
+
+
+td{
+  font-size: 12px;
+  padding: 3px;
+}
+
+.th{
+    background:linear-gradient(#014888,#001222);
+    color: #fff;
+    text-align: center;
+    width:200px;
+    height: 30px;
+}
+
+.keterangan{
+    background:linear-gradient(#014888,#001222);
+    color: #fff;
+    text-align: center;
+    width:250px;
+    height: 30px;
+}
+
+
+.k{
+    background:linear-gradient(#014888,#001222);
+    color: #fff;
+    text-align: center;
+    height:30px;
+    /* width: 80px; */
+    width: 200px;
+
+}
+
+.kt{
+    background:linear-gradient(#014888,#001222);
+    color: #fff;
+    text-align: center;
+    height:30px;
+    width: 250px;
+}
+.spp{
+    background:linear-gradient(#014888,#001222);
+    color: #fff;
+    text-align: center;
+    height:30px;
+    width: 200px;
+}
+
+#spp{
+    width: 100%;
+    height: 30px;
+}
+
+.t{
+    width: 100px;
+  }
+  #t-kredit{
+    width: 100%;
+  height: 100%;
   }
 
-  .mobile-menu-toggle {
-      display: block;
-  }
 
-  .sidebar-nav {
-      width: 250px; /* Lebar mobile sidebar */
-      height: calc(100vh - 60px);
-      position: fixed;
-      top: 60px;
-      left: 0;
-      transform: translateX(-100%);
-      transition: transform 0.3s ease-in-out;
-      z-index: 150;
-      padding-top: 0;
-      overflow-y: auto; /* Selalu auto di mobile untuk scroll vertikal */
-      overflow-x: hidden; /* Pastikan tidak ada scroll horizontal di sidebar itu sendiri */
-      -webkit-overflow-scrolling: touch;
-      background-color: #fff; /* Pastikan latar belakang sidebar terlihat */
-  }
 
-  .sidebar-nav.active {
-      transform: translateX(0);
-  }
 
-  .isi-container {
-      padding: 0; /* Ubah padding ini menjadi 0 di sini */
-  }
-  .isi-container > li {
-      margin-bottom: 15px;
-      padding: 8px 15px; /* Tambahkan padding horizontal di sini untuk item utama */
-  }
-  .isi-container > li img {
-      width: 25px;
-      height: 25px;
-  }
-  .isi-container > li a {
+  
+  .table .update-button,
+  .table .delete-button {
+      padding: 8px 12px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
       font-size: 0.9em;
-      padding-left: 0; /* Reset padding-left dari desktop */
+      transition: background-color 0.3s ease;
   }
+  .table .update-button {
+    background-color: #28a745; /* Warna hijau untuk update */
+    color: white;
+}
 
-  /* --- PENTING: Penyesuaian DROPDOWN untuk mobile sidebar --- */
-  .dropdown, .dropdown-nested {
-      position: relative; /* Ini kuncinya! Agar mengalir normal */
-      left: auto !important; /* Reset dari JS desktop */
-      top: auto !important; /* Reset dari JS desktop */
-      width: 100%; /* Mengisi lebar parent yang tersedia */
-      min-width: unset;
-      background-color: #f6f6f6;
-      box-shadow: none;
-      border-top: 1px solid #eee;
-      padding-left: 0; /* Hapus padding-left dari container dropdown */
-      overflow: hidden; /* Tetap hidden secara default untuk transisi tinggi */
-      z-index: 1; /* Tetap di atas konten lain dalam sidebar */
-      visibility: visible; /* Di mobile, visibilitas dikontrol oleh tinggi */
-      opacity: 1; /* Di mobile, opacity selalu 1 */
-      transition: height 0.3s ease-out; /* Transisi untuk tinggi */
-      height: 0; /* Sembunyikan dengan tinggi 0 */
-      pointer-events: none; /* Nonaktifkan interaksi saat tersembunyi */
-  }
+.table .update-button:hover {
+    background-color: #218838;
+}
 
-  .dropdown.show, .dropdown-nested.show {
-      height: auto; /* Ini akan memicu transisi tinggi */
-      pointer-events: auto; /* Aktifkan interaksi saat show */
-      overflow-y: auto; /* Izinkan scroll vertikal jika dropdown sendiri terlalu panjang */
-      overflow-x: hidden; /* Pastikan tidak ada scroll horizontal pada container dropdown itu sendiri */
-  }
-  /* Hapus padding-left dari .dropdown-nested */
-  /* .dropdown-nested {
-      padding-left: 40px;
-  } */
+.table .delete-button {
+    background-color: #dc3545; /* Warna merah untuk delete */
+    color: white;
+}
 
-  /* Gaya untuk A di dalam dropdown (Mengizinkan Scroll Horizontal pada Item Link) */
-  .dropdown li a, .dropdown-nested li a {
-      white-space: nowrap; /* Teks tetap dalam satu baris */
-      overflow-x: auto; /* IZINKAN SCROLL HORIZONTAL DI SINI */
-      -webkit-overflow-scrolling: touch; /* Untuk pengalaman scroll yang lebih baik di iOS */
-      display: block; /* Pastikan display block agar overflow bekerja */
-      /* Tambahkan padding di kanan agar scrollbar (jika muncul) tidak menutupi teks */
-      padding-right: 25px;
-      /* Tambahkan padding-left di sini untuk indentasi */
-      padding-left: 30px; /* Indentasi untuk level 1 dropdown */
-  }
-  .dropdown-nested li a {
-      padding-left: 50px; /* Indentasi untuk level 2 (30px dari parent level 1 + 20px tambahan) */
-  }
+.table .delete-button:hover {
+    background-color: #c82333;
+}
 
-
-  /* Opsi: Sembunyikan scrollbar horizontal pada item link dropdown jika tidak ingin terlihat permanen */
-  .dropdown li a::-webkit-scrollbar, .dropdown-nested li a::-webkit-scrollbar {
-      height: 0;
-  }
-  .dropdown li a { scrollbar-width: none; }
-  .dropdown-nested li a { scrollbar-width: none; }
-
-  /* Memastikan arrow icon berputar dengan benar di mobile */
-  .isi-container > li.active-dropdown > a .arrow-icon {
-      transform: rotate(90deg);
-  }
-  .dropdown li.has-nested.active-nested > a .arrow-icon {
-      transform: rotate(90deg);
-  }
-
-
-  .dashboard-content {
+/* Untuk perangkat mobile kecil (lebar kurang dari 600px) */
+@media (max-width: 599px) {
+  .isi-co {
       padding: 15px;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      overflow-x: hidden;
+      margin: 10px; /* Margin lebih kecil di perangkat mobile */
   }
 
-  .main-content {
-      flex-direction: column;
-      width: 100%;
-      overflow-x: hidden;
+  .isi-co .pj {
+      font-size: 1.5em; /* Ukuran font judul lebih kecil */
   }
 
-  .card {
-      width: 100%;
-      min-width: unset;
-      overflow-x: hidden;
+  .add {
+      text-align: center; /* Pusatkan tombol di mobile */
   }
 
-  /* Untuk elemen di dalam card yang mungkin butuh scroll horizontal */
-  .sales-chart-card, .warehouse-map-card {
-      overflow-x: auto; /* Izinkan scroll horizontal untuk card ini */
+  .add button {
+      width: 100%; /* Lebar penuh untuk tombol */
+      padding: 12px;
   }
 
+  .table th,
+  .table td {
+      padding: 8px 10px; /* Padding lebih kecil di sel tabel */
+      font-size: 0.85em; /* Ukuran font lebih kecil */
+  }
 
-  .sidebar { /* Ini adalah sidebar forum diskusi */
+  /* Sembunyikan header kolom tertentu atau gunakan teknik lain jika diperlukan */
+  /* Contoh: Membuat tabel terlihat seperti daftar item di mobile */
+  .table thead {
+      display: none; /* Sembunyikan header tabel */
+  }
+
+  .table, .table tbody, .table tr, .table td {
+      display: block; /* Buat semua elemen tabel menjadi blok */
       width: 100%;
-      height: auto;
-      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-      padding: 15px;
-      overflow-x: hidden;
+  }
+
+  .table tr {
+      margin-bottom: 15px; /* Jarak antar baris */
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  .table td {
+      border: none; /* Hapus border antar sel */
+      border-bottom: 1px solid #eee; /* Beri border bawah untuk setiap "baris" sel */
+      text-align: right; /* Rata kanan nilai data */
+      position: relative;
+      padding-left: 50%; /* Sisakan ruang untuk label pseudo-element */
+  }
+
+  .table td:last-child {
+      border-bottom: none; /* Hapus border bawah di sel terakhir */
+  }
+
+  .table td::before {
+      content: attr(data-label); /* Tampilkan label dari atribut data-label */
+      position: absolute;
+      left: 10px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap; /* Jangan biarkan label pindah baris */
+      text-align: left;
+      font-weight: bold;
+      color: #666;
+  }
+
+  /* Tambahkan atribut data-label ke HTML Anda seperti ini: */
+  /* <td><span data-label="ID Anggota:"></span>${anggota.nomor_anggota}</td> */
+  /* Atau secara dinamis di JS Anda saat merender tabel */
+  /* Untuk contoh di atas, kita bisa menggunakan: */
+  .table td:nth-of-type(1):before { content: "ID Anggota:"; }
+  .table td:nth-of-type(2):before { content: "Nama Anggota:"; }
+  .table td:nth-of-type(3):before { content: "Jabatan:"; }
+  .table td:nth-of-type(4):before { content: "Aksi:"; }
+
+  .table .update-button,
+  .table .delete-button {
+      display: block; /* Buat tombol menjadi blok */
+      width: calc(100% - 10px); /* Lebar tombol menyesuaikan parent */
+      margin: 5px auto; /* Pusatkan tombol secara horizontal */
   }
 }
 
-/* Untuk layar ekstra kecil (misalnya, smartphone) */
-@media (max-width: 768px) {
-  .main-header {
-      padding: 8px 10px;
-  }
-  .company-logo {
-      height: 35px;
-  }
-  #ic {
-      width: 40px;
-      height: 40px;
-  }
-  .mobile-menu-toggle {
-      font-size: 1.6em;
+/* Untuk tablet (lebar antara 600px dan 992px) */
+@media (min-width: 600px) and (max-width: 992px) {
+  .isi-co {
+      padding: 20px;
+      margin: 15px;
   }
 
-  .sidebar-nav {
-      width: 220px; /* Sedikit lebih kecil untuk layar sangat kecil */
+  .isi-co .pj {
+      font-size: 1.8em;
   }
 
-  .dashboard-content {
-      padding: 15px;
-  }
-
-  .sales-chart-card {
-      height: 350px;
-  }
-  #salesChart {
-      max-height: 280px;
-  }
-
-  .forum-avatar {
-      width: 40px;
-      height: 40px;
-  }
-}
-
-/* Untuk layar yang sangat kecil */
-@media (max-width: 480px) {
-  .main-header {
-      padding: 5px 8px;
-  }
-  .company-logo {
-      height: 30px;
-  }
-  #ic {
-      width: 35px;
-      height: 35px;
-  }
-  .mobile-menu-toggle {
-      font-size: 1.5em;
-  }
-  .sidebar-nav {
-      width: 100%; /* Mengambil lebar penuh layar */
-  }
-
-  .dashboard-content {
-      padding: 5px;
-  }
-  .card {
-      padding: 15px;
+  /* Biarkan tabel normal, tapi mungkin sesuaikan padding jika terlalu padat */
+  .table th,
+  .table td {
+      padding: 10px 12px;
   }
 }
