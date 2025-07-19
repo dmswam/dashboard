@@ -1,19 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard ERP</title>
-    <!-- Link ke CSS Anda -->
-    <link rel="stylesheet" href="dashboard_erp.css">
-    <!-- Link ke OpenLayers CSS (pastikan versi yang sama dengan JS) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.3.0/ol.css">
-    <!-- Font Awesome untuk ikon hamburger menu -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+<html>
+  <head><title>pesanan penjualan</title>
+  <link rel="stylesheet" href="organisasi.css">
+  </head>
 <body>
-
-    <!-- Header Utama Halaman -->
+ <!-- Header Utama Halaman -->
     <header class="main-header">
         <div class="header-left">
             <img src="icon/logo_cross-removebg-preview.png" alt="Company Logo" class="company-logo">
@@ -217,99 +207,34 @@
             </ul>
         </div>
 
-        <!-- Konten Utama Dashboard -->
-        <div class="dashboard-content">
-            <div class="main-content">
-                <div class="card sales-chart-card">
-                    <h2>Sales</h2>
-                    <canvas id="salesChart"></canvas>
-                    <div class="period-display">Periode : 31 / 08 / 2024</div>
-                </div>
 
-                <div class="bottom-row">
-                    <div class="card production-card">
-                        <h2>Produksi</h2>
-                        <div class="product-item">
-                            <span>Product A</span>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" style="width: 90%; background-color: #f7931e;">90%</div>
-                            </div>
-                        </div>
-                        <div class="product-item">
-                            <span>Product B</span>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" style="width: 80%; background-color: #f7931e;">80%</div>
-                            </div>
-                        </div>
-                        <div class="product-item">
-                            <span>Product C</span>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" style="width: 85%; background-color: #f7931e;">85%</div>
-                            </div>
-                        </div>
-                    </div>
+<div class="isi-co">
+    <h3 class="pj">Daftar Anggota</h3>
 
-                    <div class="card warehouse-map-card">
-                        <h2>Warehouse</h2>
-                        <div id="map" class="map-container"></div>
-                    </div>
-                </div>
-            </div>
 
-            <div class="sidebar"> <!-- Ini adalah sidebar forum diskusi -->
-                <div class="card forum-card">
-                    <div class="forum-header">
-                        <h3>Forum Diskusi</h3>
-                        <button class="forum-button">
-                            <img src="https://cdn-icons-png.flaticon.com/512/32/32441.png" alt="Icon Diskusi" class="forum-icon-header">
-                        </button>
-                    </div>
-                    <ul class="forum-list">
-                        <li class="forum-item">
-                            <img src="https://cdn-icons-png.flaticon.com/512/1000/1000962.png" alt="Finance" class="forum-avatar">
-                            <div class="forum-details">
-                                <h4>Finance</h4>
-                                <span class="status online">online</span>
-                            </div>
-                        </li>
-                        <li class="forum-item">
-                            <img src="https://cdn-icons-png.flaticon.com/512/1000/1000962.png" alt="Sales" class="forum-avatar">
-                            <div class="forum-details">
-                                <h4>Sales</h4>
-                                <span class="status offline">offline</span>
-                            </div>
-                        </li>
-                        <li class="forum-item">
-                            <img src="https://cdn-icons-png.flaticon.com/512/1000/1000962.png" alt="Procurement" class="forum-avatar">
-                            <div class="forum-details">
-                                <h4>Procurement</h4>
-                                <span class="status online">online</span>
-                            </div>
-                        </li>
-                        <li class="forum-item">
-                            <img src="https://cdn-icons-png.flaticon.com/512/1000/1000962.png" alt="Inventory" class="forum-avatar">
-                            <div class="forum-details">
-                                <h4>Inventory</h4>
-                                <span class="status online">online</span>
-                            </div>
-                        </li>
-                        <li class="forum-item">
-                            <img src="https://cdn-icons-png.flaticon.com/512/1000/1000962.png" alt="Produksi" class="forum-avatar">
-                            <div class="forum-details">
-                                <h4>Produksi</h4>
-                                <span class="status online">online</span>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Link ke JavaScript Anda (PENTING: Selalu di akhir body) -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0/dist/chartjs-plugin-annotation.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ol@v7.3.0/dist/ol.js"></script>
-    <script src="dashboard_erp.js"></script>
+
+
+  <div class="add">
+    <a href="organisasi2.html"><button type="button">Tambah Anggota</button></a>
+  </div>
+  <div class="table-container">
+    <table id="myTable" class="table" border="1">
+        <thead>
+            <tr>
+                <th class="k">ID Anggota</th>
+                <th class="kt">Nama Anggota</th>
+                <th class="spp">Jabatan</th>
+                <th class="keterangan">Aksi</th> </tr>
+        </thead>
+        <tbody id="organisasiTableBody">
+            </tbody>
+    </table>
+</div>
+</div>
+</div>
+
+
+<script src="organisasi.js"></script>
 </body>
 </html>
