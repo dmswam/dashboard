@@ -18,6 +18,12 @@ html, body {
   background-color: #f4f7f6; /* Warna latar belakang halaman */
 }
 
+/* Tambahkan ini untuk mengontrol scroll body saat mobile sidebar aktif */
+body.no-scroll {
+  overflow: hidden;
+}
+
+
 /* --- HEADER UTAMA --- */
 .main-header {
   width: 100%;
@@ -84,39 +90,44 @@ html, body {
 }
 
 .dropdown-logo {
-  display: none; /* Sembunyikan secara default */
-  
-  position: absolute; /* Tetap absolute untuk dropdown profil */
-  background-color: #fff; /* Ubah ke putih bersih */
-  border-radius: 8px; /* Sudut sedikit membulat */
-  min-width: 150px; /* Lebar minimum sedikit lebih luas */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Shadow lebih lembut dan modern */
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s ease-in-out;
+
+  position: absolute;
+  background-color: #fff;
+  border-radius: 8px;
+  min-width: 180px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   list-style: none;
-  padding: 8px 0; /* Padding vertikal di dalam dropdown */
+  padding: 8px 0;
   margin: 0;
-  z-index: 20; /* Lebih tinggi dari z-index dropdown sidebar */
-  top: calc(100% + 10px); /* Jarak dari pemicu sedikit lebih jauh */
+  z-index: 20;
+  top: calc(100% + 10px);
   right: 0;
+  pointer-events: none;
 }
 
 .dropdown-logo.show {
-  display: block; /* Tampilkan langsung */
-  overflow: visible; /* Penting: tidak ada scrollbar internal */
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+  pointer-events: auto;
 }
 
 .dropdown-logo li a {
-  color: #333; /* Warna teks lebih netral */
-  padding: 10px 15px; /* Padding item lebih nyaman */
+  color: #333;
+  padding: 10px 15px;
   text-decoration: none;
   display: block;
   white-space: nowrap;
-  font-size: 0.95em; /* Ukuran font sedikit lebih besar */
+  font-size: 0.95em;
 }
 
 .dropdown-logo li a:hover {
-  background-color: #f0f0f0; /* Warna hover lebih terang */
-  border-radius: 4px; /* Sudut membulat saat hover */
-  margin: 0 8px; /* Memberi sedikit jarak dari tepi dropdown */
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  margin: 0 8px;
 }
 
 /* --- LAYOUT UTAMA (Sidebar Navigasi dan Konten Dashboard) --- */
@@ -124,9 +135,8 @@ html, body {
   display: flex;
   height: calc(100vh - 60px); /* Tinggi viewport dikurangi tinggi header */
   margin-top: 60px; /* Dorong konten ke bawah header */
-  width: 100%; /* Penting untuk responsivitas */
-  /* Pastikan tidak ada overflow yang tidak diinginkan di sini */
-  overflow: hidden; /* Menambah overflow hidden untuk container utama */
+  width: 100%;
+  overflow: hidden; /* Menambah overflow hidden untuk container utama, scroll akan di elemen dalamnya */
 }
 
 /* --- SIDEBAR NAVIGASI UTAMA --- */
@@ -135,39 +145,65 @@ html, body {
   background-color: #fff;
   box-shadow: 2px 0 5px rgba(0,0,0,0.1);
   height: 100%; /* Mengisi tinggi penuh .main-layout-container */
-  flex-shrink: 0; /* Mencegah sidebar menyusut */
-  overflow-y: hidden; /* MENGHILANGKAN SCROLLBAR PADA SIDEBAR UTAMA SECARA DEFAULT DI DESKTOP */
+  flex-shrink: 0;
+  /* Ubah ini: di desktop, sidebar akan scroll jika kontennya panjang */
+  overflow-y: auto; /* Izinkan scroll di desktop juga */
+  overflow-x: hidden; /* Pastikan tidak ada scroll horizontal */
+
   transition: transform 0.3s ease-in-out; /* Untuk animasi slide-in/out mobile */
-  z-index: 150; /* Di atas konten, di bawah header */
+  z-index: 150;
   padding-top: 10px; /* Padding dari atas */
+  position: relative; /* Penting untuk z-index dropdown yang fixed */
 }
 
-/* Tambahkan kelas ini untuk menonaktifkan scroll sidebar saat dropdown terbuka di mobile */
-.sidebar-nav.no-scroll {
-  overflow-y: hidden !important; /* Paksa hidden saat no-scroll aktif */
+/* Tambahkan kelas ini untuk menonaktifkan scroll body saat mobile sidebar aktif */
+body.no-scroll {
+  overflow: hidden;
 }
+
+/* Hilangkan scrollbar default */
+.sidebar-nav::-webkit-scrollbar {
+  width: 0; /* Untuk Chrome, Safari, Opera */
+  height: 0;
+}
+.sidebar-nav {
+  scrollbar-width: none; /* Untuk Firefox */
+}
+
 
 .isi-container {
   list-style: none;
   padding: 0 15px; /* Padding horizontal di dalam sidebar */
   margin: 0;
   width: 100%;
+  /* Ini akan menjadi container yang bisa di-scroll jika isinya panjang */
+  /* Pastikan tinggi ini tidak membatasi konten */
 }
 
 /* --- ITEM MENU UTAMA (Dashboard, Perusahaan, Finance, dll.) --- */
 .isi-container > li {
   display: flex;
   align-items: center;
-  position: relative; /* Penting: Agar item menu bisa menjadi parent untuk positioning relative jika diperlukan */
+  position: relative; /* PENTING: Untuk positioning absolute dropdown */
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   padding: 8px 0;
-  transition: background-color 0.2s ease-in-out; /* Tambah transisi hover untuk item menu */
-  border-radius: 6px; /* Sudut sedikit membulat untuk item menu */
+  transition: background-color 0.2s ease-in-out;
+  border-radius: 6px;
+}
+
+/* Tambahkan padding di sisi kiri untuk ikon */
+.isi-container > li > a {
+  padding-left: 10px;
 }
 
 .isi-container > li:hover {
-  background-color: #e8f0fe; /* Warna latar belakang saat hover pada item menu */
+  background-color: #e8f0fe;
+}
+
+/* Kelas aktif untuk item menu parent dropdown */
+.isi-container > li.active-dropdown {
+  background-color: #e8f0fe;
 }
 
 .dashboard {
@@ -179,6 +215,7 @@ html, body {
   width: 30px;
   height: 30px;
   flex-shrink: 0;
+  object-fit: contain;
 }
 
 .isi-container > li a {
@@ -187,70 +224,98 @@ html, body {
   font-weight: bold;
   flex-grow: 1;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* --- DROPDOWN UMUM (Utama dan Bersarang) --- */
-.dropdown,
-.dropdown-nested {
-  display: none; /* Sembunyikan secara default */
+/* Gaya untuk ikon panah dropdown */
+.isi-container > li a .arrow-icon {
+  font-size: 0.8em;
+  margin-left: 10px;
+  transition: transform 0.2s ease-in-out;
+}
 
-  background-color: #fff; /* Ubah ke putih bersih */
-  border-radius: 8px; /* Sudut sedikit membulat */
-  min-width: 200px; /* Lebar minimum dropdown sidebar lebih sesuai */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Shadow lebih lembut dan modern */
+.isi-container > li.active-dropdown > a .arrow-icon {
+  transform: rotate(90deg);
+}
+
+
+/* --- DROPDOWN UTAMA SIDEBAR (level 1) --- */
+.dropdown {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s ease-in-out;
+  pointer-events: none;
+
+  background-color: #fff;
+  border-radius: 8px;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   list-style: none;
-  padding: 8px 0; /* Padding vertikal di dalam dropdown */
+  padding: 8px 0;
   margin: 0;
-  
-  /* PENTING: Position fixed untuk overlaying */
-  position: fixed; 
-  z-index: 100; /* Pastikan di atas konten dashboard tapi di bawah header */
+  z-index: 10;
 
-  /* Defaultnya di luar layar */
-  left: -9999px;
-  top: -9999px;
+  position: fixed; /* Tetap fixed untuk overlay di desktop */
+  top: -9999px; /* Default hide */
+  left: -9999px; /* Default hide */
+}
+
+/* --- NESTED DROPDOWN SIDEBAR (level 2) --- */
+.dropdown-nested {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s 0.2s, opacity 0.2s ease-in-out;
+  pointer-events: none;
+
+  background-color: #fff;
+  border-radius: 8px;
+  min-width: 200px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  z-index: 11;
+
+  position: fixed; /* Tetap fixed untuk overlay di desktop */
+  top: -9999px; /* Default hide */
+  left: -9999px; /* Default hide */
 }
 
 /* Saat dropdown aktif */
 .dropdown.show,
 .dropdown-nested.show {
-  display: block; /* Tampilkan langsung */
-  overflow: visible; /* PENTING: dropdown tidak akan punya scrollbar internal */
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+  pointer-events: auto;
   /* Posisi `left` dan `top` akan diatur oleh JS */
 }
 
 .dropdown li,
 .dropdown-nested li {
-  padding: 0; /* Reset padding pada LI agar padding pada A yang bekerja */
+  padding: 0;
+  position: relative;
 }
 
 .dropdown li a,
 .dropdown-nested li a {
-  color: #333; /* Warna teks lebih netral */
-  padding: 10px 15px; /* Padding item lebih nyaman */
+  color: #333;
+  padding: 10px 15px;
   text-decoration: none;
   display: block;
-  white-space: nowrap; /* Pastikan teks tidak melompat baris jika terlalu panjang */
-  font-size: 0.95em; /* Ukuran font sedikit lebih besar */
+  white-space: nowrap;
+  font-size: 0.95em;
 }
 
 .dropdown li a:hover,
 .dropdown-nested li a:hover {
-  background-color: #f0f0f0; /* Warna hover lebih terang */
-  border-radius: 4px; /* Sudut membulat saat hover */
-  margin: 0 8px; /* Memberi sedikit jarak dari tepi dropdown */
-}
-
-/* Untuk nested dropdown, tingkatkan z-index agar selalu di atas parent dropdown */
-.dropdown-nested {
-  z-index: 105; /* Sedikit lebih tinggi dari dropdown parent */
-}
-
-/* Menghapus semua aturan :hover yang menampilkan dropdown, karena akan ditangani oleh JS */
-.perusahaan:hover .dropdown, .finance:hover .dropdown, .sales:hover .dropdown,
-.procurement:hover .dropdown, .warehouse:hover .dropdown, .production:hover .dropdown,
-.human:hover .dropdown, .dropdown li:hover .dropdown-nested {
-  display: none; /* Pastikan defaultnya tersembunyi */
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  margin: 0 8px;
 }
 
 /* --- KONTEN UTAMA DASHBOARD --- */
@@ -261,7 +326,7 @@ html, body {
   box-sizing: border-box;
   height: 100%;
   display: flex;
-  flex-direction: column; /* Mengatur main-content dan sidebar (kanan) secara vertikal */
+  flex-direction: column;
   gap: 20px;
 }
 
@@ -320,7 +385,7 @@ html, body {
 }
 
 .product-item span {
-  flex-basis: 100px; /* Lebar tetap untuk nama produk */
+  flex-basis: 100px;
   margin-right: 15px;
   white-space: nowrap;
 }
@@ -330,7 +395,7 @@ html, body {
   background-color: #e0e0e0;
   border-radius: 5px;
   height: 20px;
-  overflow: hidden; /* Penting untuk memastikan bar di dalam container */
+  overflow: hidden;
 }
 
 .progress-bar {
@@ -355,7 +420,7 @@ html, body {
   width: 100%;
   border: 1px solid #ddd;
   border-radius: 4px;
-  background-color: #f0f0f0; /* Placeholder for map */
+  background-color: #f0f0f0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -364,12 +429,12 @@ html, body {
 
 /* --- SIDEBAR KONTEN (Forum Diskusi) --- */
 .sidebar {
-  width: 280px; /* Lebar default di desktop */
+  width: 280px;
   background-color: #f8f8f8;
   padding: 20px;
   box-shadow: -2px 0 5px rgba(0,0,0,0.1);
   flex-shrink: 0;
-  height: fit-content; /* Biarkan tinggi menyesuaikan konten */
+  height: fit-content;
   box-sizing: border-box;
 }
 
@@ -472,105 +537,143 @@ html, body {
       min-width: 280px;
   }
   .warehouse-map-card {
-      min-width: 350px; /* Sedikit kurangi min-width */
+      min-width: 350px;
   }
 }
 
 /* Untuk layar dengan lebar maksimum 992px (misalnya, tablet portrait) */
 @media (max-width: 992px) {
   .main-layout-container {
-      flex-direction: column; /* Stack sidebar dan konten secara vertikal */
-      height: auto; /* Biarkan tinggi menyesuaikan konten */
-      margin-top: 60px; /* Pastikan konten tidak tumpang tindih dengan header */
-      width: 100%; /* Pastikan mengambil lebar penuh */
-      overflow-x: hidden !important; /* Pastikan juga tidak ada scroll horizontal di mobile */
+      flex-direction: column;
+      height: auto;
+      margin-top: 60px;
+      width: 100%;
+      overflow-x: hidden !important;
   }
 
   .mobile-menu-toggle {
-      display: block; /* Tampilkan tombol hamburger */
+      display: block;
   }
 
   .sidebar-nav {
-      width: 250px; /* Tetapkan lebar untuk sidebar saat dibuka di mobile */
-      height: calc(100vh - 60px); /* Tinggi sidebar mengambil sisa tinggi viewport */
-      position: fixed; /* Tetap fixed untuk mobile menu agar melayang */
-      top: 60px; /* Di bawah header */
+      width: 250px;
+      height: calc(100vh - 60px);
+      position: fixed;
+      top: 60px;
       left: 0;
-      transform: translateX(-100%); /* Sembunyikan di luar layar secara default */
+      transform: translateX(-100%);
       transition: transform 0.3s ease-in-out;
       z-index: 150;
-      padding-top: 0; /* Reset padding-top */
-      /* overflow-y: auto; */ /* Komentar ini karena kita akan mengontrolnya via JS */
-      -webkit-overflow-scrolling: touch; /* Memungkinkan scroll yang lebih mulus di iOS */
-  }
-
-  /* Hilangkan scrollbar default di mobile, kita atur via JS class no-scroll */
-  .sidebar-nav::-webkit-scrollbar {
-      display: none; /* Sembunyikan scrollbar webkit */
-  }
-  .sidebar-nav {
-      scrollbar-width: none; /* Sembunyikan scrollbar untuk Firefox */
+      padding-top: 0;
+      overflow-y: auto; /* Selalu auto di mobile */
+      -webkit-overflow-scrolling: touch;
   }
 
   .sidebar-nav.active {
-      transform: translateX(0); /* Tampilkan sidebar saat aktif */
+      transform: translateX(0);
   }
 
+  /* Hilangkan scrollbar default di mobile (sudah diatur di atas untuk desktop juga) */
+  /* .sidebar-nav::-webkit-scrollbar { width: 0; height: 0; } */
+  /* .sidebar-nav { scrollbar-width: none; } */
+
+
   .isi-container {
-      padding: 15px; /* Sesuaikan padding */
+      padding: 15px;
   }
   .isi-container > li {
-      margin-bottom: 15px; /* Kurangi jarak antar menu */
+      margin-bottom: 15px;
   }
   .isi-container > li img {
-      width: 25px; /* Ukuran ikon lebih kecil */
+      width: 25px;
       height: 25px;
   }
   .isi-container > li a {
-      font-size: 0.9em; /* Ukuran font lebih kecil */
-  }
-
-  /* Penyesuaian dropdown untuk mobile sidebar */
-  /* Di mobile, dropdown biasanya muncul di bawah item induk, bukan di samping */
-  .dropdown, .dropdown-nested {
-      position: relative; /* Ubah ke relative agar muncul di bawah induk */
-      left: auto; /* Hapus positioning left */
-      top: auto; /* Hapus positioning top */
-      width: 100%; /* Ambil lebar penuh parent */
-      min-width: unset; /* Hapus min-width */
-      background-color: #f6f6f6; /* Warna latar belakang dropdown di mobile */
-      box-shadow: none; /* Hapus shadow di dropdown mobile agar lebih bersih */
-      border-top: 1px solid #eee; /* Beri sedikit pemisah */
-      padding-left: 20px; /* Indentasi untuk sub-menu */
-      overflow: visible; /* Pastikan ini visible untuk dropdown di mobile juga */
-      z-index: 1; /* Kembali ke z-index normal untuk mobile */
-  }
-
-  .dropdown-nested {
-      padding-left: 40px; /* Indentasi lebih dalam untuk nested */
-  }
-
-  .dropdown li a, .dropdown-nested li a {
-      padding: 8px 15px; /* Sesuaikan padding untuk item dropdown di mobile */
       font-size: 0.9em;
   }
 
+  /* Penyesuaian dropdown untuk mobile sidebar */
+  .dropdown, .dropdown-nested {
+      position: relative;
+      left: auto !important;
+      top: auto !important;
+      width: 100%;
+      min-width: unset;
+      background-color: #f6f6f6;
+      box-shadow: none;
+      border-top: 1px solid #eee;
+      padding-left: 20px;
+      overflow: hidden; /* Penting untuk transisi tinggi */
+      z-index: 1;
+      visibility: visible; /* Di mobile, kita ingin visibility selalu visible */
+      opacity: 1; /* Di mobile, kita ingin opacity selalu 1 */
+      transition: height 0.3s ease-out; /* Transisi untuk tinggi */
+      height: 0; /* Sembunyikan dengan tinggi 0 */
+  }
+
+  .dropdown.show, .dropdown-nested.show {
+      height: auto;
+  }
+  .dropdown-nested {
+      padding-left: 40px;
+  }
+
+  /* Memastikan arrow icon berputar dengan benar di mobile */
+  .isi-container > li.active-dropdown > a .arrow-icon {
+      transform: rotate(90deg);
+  }
+  .dropdown li.has-nested.active-nested > a .arrow-icon {
+      transform: rotate(90deg);
+  }
+
+
   .dashboard-content {
-      margin-left: 0; /* Hapus margin kiri */
       padding: 15px;
-      height: auto; /* Tinggi menyesuaikan konten */
-      overflow-y: visible; /* Biarkan body yang menangani scroll utama */
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
   }
 
   .main-content {
-      flex-direction: column; /* Card stack vertikal */
-      gap: 15px; /* Kurangi jarak antar card */
+      flex-direction: column;
+      width: 100%;
   }
 
   .card {
-      min-width: unset; /* Hapus min-width */
-      width: 100%; /* Card mengambil seluruh lebar */
-      padding: 15px; /* Kurangi padding card */
+      width: 100%;
+      min-width: unset;
+  }
+
+  .sidebar { /* Ini adalah sidebar forum diskusi */
+      width: 100%;
+      height: auto;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      padding: 15px;
+  }
+}
+
+/* Untuk layar ekstra kecil (misalnya, smartphone) */
+@media (max-width: 768px) {
+  .main-header {
+      padding: 8px 10px;
+  }
+  .company-logo {
+      height: 35px;
+  }
+  #ic {
+      width: 40px;
+      height: 40px;
+  }
+  .mobile-menu-toggle {
+      font-size: 1.6em;
+  }
+
+  .sidebar-nav {
+      width: 220px;
+  }
+
+  .dashboard-content {
+      padding: 15px;
   }
 
   .sales-chart-card {
@@ -580,158 +683,35 @@ html, body {
       max-height: 280px;
   }
 
-  .bottom-row {
-      flex-direction: column;
-      gap: 15px;
-  }
-
-  .production-card, .warehouse-map-card {
-      min-width: unset;
-      flex: none;
-      width: 100%;
-  }
-  .warehouse-map-card .map-container {
-      height: 250px;
-  }
-
-  .sidebar {
-      width: 100%;
-      height: auto;
-      margin-top: 20px;
-      position: relative;
-      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-      overflow-y: visible;
+  .forum-avatar {
+      width: 40px;
+      height: 40px;
   }
 }
 
-/* Untuk layar dengan lebar maksimum 768px (misalnya, ponsel besar atau tablet kecil) */
-@media (max-width: 768px) {
+/* Untuk layar yang sangat kecil */
+@media (max-width: 480px) {
   .main-header {
-      padding: 8px 10px;
-      height: 55px;
+      padding: 5px 8px;
   }
   .company-logo {
-      height: 35px;
+      height: 30px;
   }
   #ic {
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
   }
   .mobile-menu-toggle {
       font-size: 1.5em;
   }
   .sidebar-nav {
-      top: 55px;
-      height: calc(100vh - 55px);
-  }
-  .main-layout-container {
-      margin-top: 55px;
-  }
-
-  .dashboard-content {
-      padding: 10px;
-  }
-  .card h2, .card h3 {
-      font-size: 1.2em;
-  }
-  .sales-chart-card {
-      height: 300px;
-  }
-  #salesChart {
-      max-height: 220px;
-  }
-  .warehouse-map-card .map-container {
-      height: 200px;
-  }
-  .forum-avatar {
-      width: 40px;
-      height: 40px;
-  }
-  .forum-details h4 {
-      font-size: 0.95em;
-  }
-  .forum-details .status {
-      font-size: 0.8em;
-  }
-}
-
-/* Untuk layar dengan lebar maksimum 576px (misalnya, ponsel kecil) */
-@media (max-width: 576px) {
-  .main-header {
-      height: 50px;
-      padding: 5px 10px;
-  }
-  .sidebar-nav {
-      top: 50px;
       width: 100%;
-      height: calc(100vh - 50px);
-  }
-  .main-layout-container {
-      margin-top: 50px;
-  }
-  .header-left {
-      gap: 8px;
-  }
-  .company-logo {
-      height: 28px;
-  }
-  #ic {
-      width: 32px;
-      height: 32px;
-  }
-  .mobile-menu-toggle {
-      font-size: 1.2em;
-      padding: 3px 8px;
-  }
-
-  .isi-container {
-      padding: 10px;
-  }
-  .isi-container > li {
-      margin-bottom: 12px;
-      padding: 6px 0;
-  }
-  .isi-container > li img {
-      width: 22px;
-      height: 22px;
-  }
-  .isi-container > li a {
-      font-size: 0.85em;
-  }
-
-  .dropdown li a, .dropdown-nested li a {
-      padding: 6px 12px;
-      font-size: 0.8em;
   }
 
   .dashboard-content {
-      padding: 10px;
-      gap: 12px;
+      padding: 5px;
   }
   .card {
-      padding: 12px;
-  }
-  .card h2, .card h3 {
-      font-size: 1.0em;
-      margin-bottom: 10px;
-  }
-  .sales-chart-card {
-      height: 250px;
-  }
-  #salesChart {
-      max-height: 180px;
-  }
-  .warehouse-map-card .map-container {
-      height: 180px;
-  }
-  .forum-avatar {
-      width: 35px;
-      height: 35px;
-  }
-  .forum-details h4 {
-      font-size: 0.85em;
-  }
-  .forum-details .status {
-      font-size: 0.7em;
+      padding: 15px;
   }
 }
