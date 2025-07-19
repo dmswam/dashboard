@@ -70,14 +70,19 @@ body.no-scroll {
 }
 
 /* --- DROPDOWN PROFIL (di header) --- */
+/* Dalam dashboard_erp.css */
+
+/* Dalam dashboard_erp.css */
+
 .user-profile-area {
   list-style: none;
   padding: 0;
   margin: 0;
+  position: relative; /* Ini HARUS ADA! */
 }
 
 .profile-dropdown-trigger {
-  position: relative; /* Penting untuk positioning absolute dropdown */
+  /* Pastikan TIDAK ADA position: relative; di sini */
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -92,13 +97,10 @@ body.no-scroll {
 }
 
 .dropdown-logo {
-  /* Properti default saat dropdown tersembunyi */
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s 0.2s, opacity 0.2s ease-in-out; /* Transisi untuk fade-in/out */
-  pointer-events: none; /* Mencegah interaksi saat tersembunyi */
-
-  position: absolute; /* Penting untuk memposisikannya relatif terhadap trigger */
+  /* Tetap position: absolute; top: calc(100% + 10px); right: 0; */
+  position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
   background-color: #fff;
   border-radius: 8px;
   min-width: 180px;
@@ -106,12 +108,17 @@ body.no-scroll {
   list-style: none;
   padding: 8px 0;
   margin: 0;
-  z-index: 20; /* Pastikan z-index lebih tinggi dari elemen lain yang mungkin menutupi */
-  top: calc(100% + 10px); /* Posisikan 10px di bawah trigger */
-  right: 0; /* Posisikan sejajar dengan sisi kanan trigger */
-  overflow-x: hidden; /* Pastikan ini juga tidak scroll horizontal */
-  box-sizing: border-box; /* Agar padding tidak menambah lebar */
+  z-index: 20;
+  top: calc(100% + 10px); /* Ini akan relatif terhadap .profile-dropdown-trigger */
+  right: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  display: none;
 }
+
+/* ... sisa CSS tidak berubah ... */
+
+/* ... sisa CSS tidak berubah ... */
 
 .dropdown-logo.show {
   /* Properti saat dropdown terlihat */
@@ -119,6 +126,7 @@ body.no-scroll {
   opacity: 1;
   transition-delay: 0s; /* Hapus delay saat muncul */
   pointer-events: auto; /* Izinkan interaksi saat terlihat */
+  display: block;
 }
 
 .dropdown-logo li a {
