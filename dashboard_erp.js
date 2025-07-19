@@ -1,114 +1,304 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // --- Inisialisasi Chart.js untuk Sales Chart ---
-    // Pastikan elemen canvas dengan ID 'salesChart' ada di HTML Anda.
-    const salesChartCanvas = document.getElementById('salesChart');
-    if (salesChartCanvas) {
-        const salesChartContext = salesChartCanvas.getContext('2d');
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const sidebarNav = document.querySelector('.sidebar-nav');
+    const profileDropdownMenu = document.querySelector('.dropdown-logo');
+    const profileDropdownTrigger = document.querySelector('.profile-dropdown-trigger');
+    const menuItemsWithDropdown = document.querySelectorAll('.isi-container > li');
+    const hasNestedItems = document.querySelectorAll('.has-nested');
 
-        function generateRandomSalesData(count, min, max) {
-            const data = [];
-            for (let i = 0; i < count; i++) {
-                data.push(Math.floor(Math.random() * (max - min + 1)) + min);
-            }
-            return data;
+    // --- Helper Functions ---
+
+    // Mengontrol scrollbar sidebar (hanya relevan untuk mobile)
+    function toggleSidebarScroll(enableScroll) {
+        if (window.innerWidth <= 992 && sidebarNav) {
+            sidebarNav.classList.toggle('no-scroll', !enableScroll);
         }
+    }
 
-        const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu'];
-        const randomSalesData = generateRandomSalesData(labels.length, 100, 500);
+    // Menutup semua dropdown sidebar (utama dan bersarang) dan mereset posisinya
+    function closeAllSidebarDropdowns() {
+        document.querySelectorAll('.sidebar-nav .dropdown.show, .sidebar-nav .dropdown-nested.show').forEach(dropdown => {
+            dropdown.classList.remove('show');
+            dropdown.style.left = '-9999px';
+            dropdown.style.top = '-9999px';
+        });
+        toggleSidebarScroll(true); // Aktifkan kembali scrollbar setelah semua dropdown tertutup
+    }
 
-        const annotationIndex = labels.length - 1;
-        const annotationValue = randomSalesData[annotationIndex];
-        const currentDate = new Date();
-        const formattedDate = `${currentDate.getDate()}/${currentDate.getMonth() + 1}/${currentDate.getFullYear()}`;
+    // Mengatur posisi dropdown fixed
+    function setDropdownPosition(dropdownElement, triggerElement) {
+        if (window.innerWidth <= 992) { // Mobile: dropdown di bawah trigger (CSS handles this via position: relative in media query)
+            dropdownElement.style.left = 'auto';
+            dropdownElement.style.top = 'auto';
+        } else { // Desktop: dropdown di samping trigger
+            // Memaksa reflow/repaint sebelum mengukur
+            dropdownElement.offsetHeight;
+            triggerElement.offsetHeight;
 
-        new Chart(salesChartContext, {
+            const triggerRect = triggerElement.getBoundingClientRect();
+            const sidebarRect = sidebarNav.getBoundingClientRect();
+
+            let topPosition = triggerRect.top;
+            let leftPosition = sidebarRect.right + 10; // 10px margin dari sidebar
+
+            // Penyesuaian agar dropdown tidak keluar layar bawah
+            const dropdownHeight = dropdownElement.offsetHeight;
+            const viewportHeight = window.innerHeight;
+            const headerHeight = 60; // Tinggi header tetap
+
+            if (topPosition + dropdownHeight > viewportHeight - 10) {
+                topPosition = viewportHeight - dropdownHeight - 10;
+                if (topPosition < headerHeight) {
+                    topPosition = headerHeight;
+                }
+            }
+            if (topPosition < headerHeight && topPosition + dropdownHeight > headerHeight) {
+                 topPosition = headerHeight;
+            }
+
+            dropdownElement.style.left = `${leftPosition}px`;
+            dropdownElement.style.top = `${topPosition}px`;
+        }
+    }
+
+    // --- Event Listeners ---
+
+    // 1. Menu Hamburger dan Sidebar Toggle
+    if (mobileMenuToggle && sidebarNav) {
+        mobileMenuToggle.addEventListener('click', function(event) {
+            event.stopPropagation();
+            sidebarNav.classList.toggle('active');
+            closeAllSidebarDropdowns();
+            if (profileDropdownMenu && profileDropdownMenu.classList.contains('show')) {
+                profileDropdownMenu.classList.remove('show');
+            }
+            toggleSidebarScroll(sidebarNav.classList.contains('active') ? false : true);
+        });
+
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 992) {
+                const isClickInsideSidebar = sidebarNav.contains(event.target);
+                const isClickOnToggle = mobileMenuToggle.contains(event.target);
+
+                if (sidebarNav.classList.contains('active') && !isClickInsideSidebar && !isClickOnToggle) {
+                    sidebarNav.classList.remove('active');
+                    closeAllSidebarDropdowns();
+                }
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 992) {
+                if (sidebarNav.classList.contains('active')) {
+                    sidebarNav.classList.remove('active');
+                }
+                toggleSidebarScroll(false);
+            } else {
+                toggleSidebarScroll(sidebarNav.classList.contains('active') ? false : true);
+            }
+            closeAllSidebarDropdowns();
+            if (profileDropdownMenu && profileDropdownMenu.classList.contains('show')) {
+                profileDropdownMenu.classList.remove('show');
+            }
+        });
+    }
+
+    // 2. Dropdown Profil Pengguna
+    if (profileDropdownTrigger && profileDropdownMenu) {
+        profileDropdownTrigger.addEventListener('click', function(event) {
+            event.stopPropagation();
+            closeAllSidebarDropdowns();
+            profileDropdownMenu.classList.toggle('show');
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!profileDropdownMenu.contains(event.target) && !profileDropdownTrigger.contains(event.target)) {
+                if (profileDropdownMenu.classList.contains('show')) {
+                    profileDropdownMenu.classList.remove('show');
+                }
+            }
+        });
+    }
+
+    // 3. Dropdown Menu Sidebar (Utama dan Bersarang)
+    menuItemsWithDropdown.forEach(item => {
+        const dropdown = item.querySelector('.dropdown');
+        if (dropdown) {
+            item.addEventListener('click', function(event) {
+                event.stopPropagation();
+
+                if (profileDropdownMenu && profileDropdownMenu.classList.contains('show')) {
+                    profileDropdownMenu.classList.remove('show');
+                }
+
+                const isCurrentlyActive = dropdown.classList.contains('show');
+
+                menuItemsWithDropdown.forEach(otherItem => {
+                    const otherDropdown = otherItem.querySelector('.dropdown');
+                    if (otherDropdown && otherDropdown !== dropdown && otherDropdown.classList.contains('show')) {
+                        otherDropdown.classList.remove('show');
+                        otherDropdown.style.left = '-9999px';
+                        otherDropdown.style.top = '-9999px';
+                        otherDropdown.querySelectorAll('.dropdown-nested.show').forEach(nested => {
+                            nested.classList.remove('show');
+                            nested.style.left = '-9999px';
+                            nested.style.top = '-9999px';
+                        });
+                    }
+                });
+
+                if (!isCurrentlyActive) {
+                    dropdown.classList.add('show');
+                    setTimeout(() => {
+                        setDropdownPosition(dropdown, item);
+                    }, 0);
+                } else {
+                    dropdown.classList.remove('show');
+                    dropdown.style.left = '-9999px';
+                    dropdown.style.top = '-9999px';
+                }
+            });
+        }
+    });
+
+    // Handle nested dropdowns
+    hasNestedItems.forEach(nestedItem => {
+        const nestedTrigger = nestedItem.querySelector('a'); // Ini adalah link yang menjadi pemicu dropdown
+        const nestedDropdown = nestedItem.querySelector('.dropdown-nested');
+
+        if (nestedTrigger && nestedDropdown) {
+            // Kita akan menggunakan event listener pada LI parent, BUKAN pada link A-nya
+            // Ini untuk memastikan klik pada link A TIDAK dihentikan
+            nestedItem.addEventListener('click', function(event) {
+                // Hentikan propagasi event ke dropdown utama
+                event.stopPropagation();
+
+                // Cek apakah target klik adalah link yang memiliki href (bukan pemicu nested dropdown itu sendiri)
+                // Jika target adalah link DI DALAM dropdown bersarang (bukan trigger nestedDropdown itu sendiri)
+                // DAN link tersebut memiliki href, biarkan event default berjalan (yaitu navigasi)
+                if (event.target.tagName === 'A' && event.target.closest('.dropdown-nested') === nestedDropdown && event.target.getAttribute('href')) {
+                    // console.log("Navigating to: ", event.target.getAttribute('href'));
+                    // Biarkan event default (navigasi) terjadi.
+                    // Tidak perlu preventDefault() atau stopPropagation() tambahan di sini.
+                    return; // Keluar dari fungsi ini agar link berfungsi
+                }
+                
+                // Jika klik bukan pada link navigasi, baru proses toggle dropdown
+                const isCurrentlyActive = nestedDropdown.classList.contains('show');
+
+                nestedItem.parentNode.querySelectorAll('.dropdown-nested.show').forEach(otherNestedDropdown => {
+                    if (otherNestedDropdown !== nestedDropdown) {
+                        otherNestedDropdown.classList.remove('show');
+                        otherNestedDropdown.style.left = '-9999px';
+                        otherNestedDropdown.style.top = '-9999px';
+                    }
+                });
+                
+                if (!isCurrentlyActive) {
+                    nestedDropdown.classList.add('show');
+                    setTimeout(() => {
+                        setDropdownPosition(nestedDropdown, nestedTrigger);
+                    }, 0);
+                } else {
+                    nestedDropdown.classList.remove('show');
+                    nestedDropdown.style.left = '-9999px';
+                    nestedDropdown.style.top = '-9999px';
+                }
+            });
+        }
+    });
+
+    // Menutup semua dropdown sidebar (kecuali profil) jika klik di luar
+    document.addEventListener('click', function(event) {
+        const isClickInsideSidebar = sidebarNav ? sidebarNav.contains(event.target) : false;
+        const isClickInsideProfileDropdown = profileDropdownMenu ? profileDropdownMenu.contains(event.target) : false;
+        
+        const isClickInsideAnySidebarDropdown = Array.from(document.querySelectorAll('.sidebar-nav .dropdown.show, .sidebar-nav .dropdown-nested.show'))
+                                                     .some(dropdown => dropdown.contains(event.target));
+
+        if (window.innerWidth > 992) {
+            if (!isClickInsideSidebar && !isClickInsideAnySidebarDropdown) {
+                closeAllSidebarDropdowns();
+            }
+        } else {
+            const isClickOnToggle = mobileMenuToggle.contains(event.target);
+            if (!isClickInsideSidebar && !isClickOnToggle && !isClickInsideProfileDropdown && !isClickInsideAnySidebarDropdown) {
+                closeAllSidebarDropdowns();
+                if (profileDropdownMenu && profileDropdownMenu.classList.contains('show')) {
+                    profileDropdownMenu.classList.remove('show');
+                }
+                if (sidebarNav && sidebarNav.classList.contains('active')) {
+                     sidebarNav.classList.remove('active');
+                     toggleSidebarScroll(true);
+                }
+            }
+        }
+    });
+
+
+    // --- 4. Chart Sales (Chart.js) ---
+    const salesCtx = document.getElementById('salesChart');
+    if (salesCtx) {
+        new Chart(salesCtx.getContext('2d'), {
             type: 'line',
             data: {
-                labels: labels,
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
                 datasets: [{
-                    label: 'Sales Volume',
-                    data: randomSalesData,
-                    borderColor: '#FF7F00',
-                    backgroundColor: 'rgba(255, 127, 0, 0.2)',
-                    tension: 0.4,
-                    fill: true,
-                    pointBackgroundColor: '#FF7F00',
-                    pointBorderColor: '#fff',
-                    pointRadius: 5,
-                    pointHoverRadius: 8,
-                    pointHoverBackgroundColor: '#FF7F00',
-                    pointHoverBorderColor: 'rgba(255,255,255,1)',
-                    pointHitRadius: 10,
-                    borderWidth: 3
+                    label: 'Sales Performance',
+                    data: [12000, 19000, 15000, 22000, 28000, 20000, 25000, 30000],
+                    backgroundColor: 'rgba(1, 56, 106, 0.2)',
+                    borderColor: '#01386A',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    fill: true
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return 'Rp ' + value.toLocaleString();
+                            }
+                        }
+                    }
+                },
                 plugins: {
                     legend: {
                         display: false
                     },
                     tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                        callbacks: {
-                            label: function(context) {
-                                return `Sales: ${context.raw}`;
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += 'Rp ' + context.parsed.y.toLocaleString();
+                                    }
+                                    return label;
+                                }
                             }
                         },
-                        backgroundColor: '#333',
-                        titleColor: '#fff',
-                        bodyColor: '#fff',
-                        borderColor: '#FF7F00',
-                        borderWidth: 1
-                    },
                     annotation: {
                         annotations: {
                             line1: {
                                 type: 'line',
-                                mode: 'vertical',
-                                scaleID: 'x',
-                                value: labels[annotationIndex],
-                                borderColor: '#FF7F00',
+                                yMin: 25000,
+                                yMax: 25000,
+                                borderColor: 'rgb(255, 99, 132)',
                                 borderWidth: 2,
                                 borderDash: [6, 6],
                                 label: {
-                                    content: `${annotationValue} \n ${formattedDate}`,
+                                    content: 'Target',
                                     enabled: true,
-                                    position: 'start',
-                                    backgroundColor: 'rgba(255, 127, 0, 0.8)',
-                                    color: 'white',
-                                    font: {
-                                        size: 12,
-                                        weight: 'bold'
-                                    },
-                                    yAdjust: -10,
-                                    xAdjust: 20,
-                                    borderRadius: 5,
-                                    padding: 8
+                                    position: 'end'
                                 }
                             }
-                        }
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0,0,0,0.05)',
-                            drawBorder: false
-                        },
-                        ticks: {
-                            color: '#666'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            color: '#666'
                         }
                     }
                 }
@@ -116,8 +306,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Inisialisasi OpenLayers untuk Peta Warehouse di Indonesia ---
-    // Pastikan elemen div dengan ID 'map' ada di HTML Anda.
+    // --- 5. Peta Warehouse (OpenLayers) ---
     const mapElement = document.getElementById('map');
     if (mapElement) {
         const map = new ol.Map({
@@ -128,205 +317,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
             ],
             view: new ol.View({
-                center: ol.proj.fromLonLat([118.0, -2.0]),
-                zoom: 5
+                center: ol.proj.fromLonLat([106.829, -6.175]), // Contoh koordinat Jakarta
+                zoom: 10
             })
         });
 
-        const warehouseLocations = [
-            [106.8456, -6.2088], // Jakarta
-            [112.7688, -7.2575], // Surabaya
-            [104.7565, -2.9761], // Palembang
-            [116.1157, -8.6534], // Denpasar
-            [122.9772, -3.9933], // Kendari
-            [110.4267, -7.0000], // Semarang
-            [98.6785, 3.5952], // Medan
-            [119.4327, -5.1477] // Makassar
-        ];
-
-        const features = warehouseLocations.map(coords => {
-            return new ol.Feature({
-                geometry: new ol.geom.Point(ol.proj.fromLonLat(coords))
-            });
+        const marker = new ol.Feature({
+            geometry: new ol.geom.Point(ol.proj.fromLonLat([106.829, -6.175]))
         });
 
         const vectorSource = new ol.source.Vector({
-            features: features
+            features: [marker]
         });
 
         const vectorLayer = new ol.layer.Vector({
             source: vectorSource,
             style: new ol.style.Style({
-                image: new ol.style.Circle({
-                    radius: 8,
-                    fill: new ol.style.Fill({
-                        color: 'red'
-                    }),
-                    stroke: new ol.style.Stroke({
-                        color: 'white',
-                        width: 2
-                    })
+                image: new ol.style.Icon({
+                    anchor: [0.5, 46],
+                    anchorXUnits: 'fraction',
+                    anchorYUnits: 'pixels',
+                    src: 'https://openlayers.org/en/latest/examples/data/icon.png'
                 })
             })
         });
         map.addLayer(vectorLayer);
     }
-
-    // --- Fungsi Utilitas untuk Menutup Semua Dropdown ---
-    function closeAllDropdowns() {
-        // Tutup semua dropdown navigasi utama dan bersarang
-        document.querySelectorAll('.dropdown.show, .dropdown-nested.show').forEach(openDropdown => {
-            openDropdown.classList.remove('show');
-            openDropdown.style.maxHeight = '0';
-            openDropdown.style.opacity = '0';
-        });
-
-        // Tutup dropdown profil jika terbuka
-        const profileDropdown = document.querySelector('.dropdown-logo');
-        if (profileDropdown && profileDropdown.classList.contains('show')) {
-            profileDropdown.classList.remove('show');
-            profileDropdown.style.maxHeight = '0';
-            profileDropdown.style.opacity = '0';
-        }
-    }
-
-    // --- Penanganan Dropdown Navigasi Utama ---
-    // Mendapatkan semua pemicu dropdown utama (elemen LI seperti .perusahaan, .finance, dll.)
-    // Kita mengecualikan '.dashboard' karena itu bukan dropdown
-    const mainDropdownTriggers = document.querySelectorAll('.isi-container > li:not(.dashboard)');
-
-    mainDropdownTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function(event) {
-            // event.target adalah elemen spesifik yang diklik (misalnya: img, a, atau li itu sendiri)
-            const clickedElement = event.target;
-            // Dapatkan elemen UL.dropdown di dalam LI yang saat ini diklik
-            const dropdown = this.querySelector('.dropdown');
-
-            // Jika tidak ada dropdown yang ditemukan, keluar dari fungsi
-            if (!dropdown) {
-                return;
-            }
-
-            // Mencegah navigasi default untuk link jika href="#" atau tidak ada href
-            // atau jika klik terjadi pada gambar
-            if ((clickedElement.tagName === 'A' && (clickedElement.getAttribute('href') === '#' || !clickedElement.getAttribute('href'))) || clickedElement.tagName === 'IMG') {
-                event.preventDefault();
-            } else if (clickedElement === this) {
-                // Jika klik pada LI itu sendiri (bukan img atau a), cegah default jika ada dropdown
-                event.preventDefault();
-            }
-
-
-            event.stopPropagation(); // Hentikan propagasi event klik ke elemen induk (misalnya ke document)
-
-            // Toggle tampilan dropdown
-            if (dropdown.classList.contains('show')) {
-                // Jika sudah terbuka, tutup
-                dropdown.classList.remove('show');
-                dropdown.style.maxHeight = '0';
-                dropdown.style.opacity = '0';
-            } else {
-                // Jika tertutup, tutup semua dropdown lainnya lalu buka yang ini
-                closeAllDropdowns(); // Menutup dropdown lain yang mungkin terbuka
-                dropdown.classList.add('show');
-                // Set max-height ke scrollHeight untuk animasi yang tepat
-                // Ini penting agar transisi max-height bisa berjalan mulus
-                dropdown.style.maxHeight = dropdown.scrollHeight + "px";
-                dropdown.style.opacity = '1';
-            }
-        });
-    });
-
-    // --- Penanganan Dropdown Bersarang (Nested Dropdown) ---
-    // Mendapatkan semua pemicu dropdown bersarang (link A di dalam li.has-nested)
-    const nestedDropdownTriggers = document.querySelectorAll('.dropdown .has-nested > a');
-
-    nestedDropdownTriggers.forEach(trigger => {
-        trigger.addEventListener('click', function(event) {
-            event.preventDefault(); // Mencegah navigasi default untuk link '#'
-            event.stopPropagation(); // Sangat penting: Mencegah event naik ke pemicu utama (main dropdown LI)
-
-            const nestedDropdown = this.nextElementSibling; // Dapatkan elemen UL .dropdown-nested
-            if (nestedDropdown && nestedDropdown.classList.contains('dropdown-nested')) {
-                // Tutup semua dropdown bersarang lainnya dalam grup yang sama (dalam dropdown utama yang sama)
-                const parentUl = this.closest('.dropdown'); // Dapatkan UL main dropdown
-                if (parentUl) {
-                    parentUl.querySelectorAll('.dropdown-nested.show').forEach(otherNestedDropdown => {
-                        if (otherNestedDropdown !== nestedDropdown) {
-                            otherNestedDropdown.classList.remove('show');
-                            otherNestedDropdown.style.maxHeight = '0';
-                            otherNestedDropdown.style.opacity = '0';
-                        }
-                    });
-                }
-
-                // Toggle tampilan dropdown bersarang yang sedang diklik
-                if (nestedDropdown.classList.contains('show')) {
-                    nestedDropdown.classList.remove('show');
-                    nestedDropdown.style.maxHeight = '0';
-                    nestedDropdown.style.opacity = '0';
-                } else {
-                    nestedDropdown.classList.add('show');
-                    nestedDropdown.style.maxHeight = nestedDropdown.scrollHeight + "px";
-                    nestedDropdown.style.opacity = '1';
-                }
-            }
-        });
-    });
-
-    // --- Penanganan Dropdown Profil ---
-    // Pemicu adalah gambar dengan ID 'ic'
-    const profileToggle = document.getElementById('ic');
-    // Dropdown itu sendiri adalah .dropdown-logo
-    const profileDropdown = document.querySelector('.dropdown-logo');
-
-    if (profileToggle && profileDropdown) {
-        profileToggle.addEventListener('click', function(event) {
-            event.stopPropagation(); // Mencegah event menyebar ke document
-            closeAllDropdowns(); // Tutup dropdown navigasi utama dan bersarang saat profil diklik
-
-            // Toggle tampilan dropdown profil
-            if (profileDropdown.classList.contains('show')) {
-                profileDropdown.classList.remove('show');
-                profileDropdown.style.maxHeight = '0';
-                profileDropdown.style.opacity = '0';
-            } else {
-                profileDropdown.classList.add('show');
-                // Set max-height ke scrollHeight untuk animasi yang tepat
-                profileDropdown.style.maxHeight = profileDropdown.scrollHeight + "px";
-                profileDropdown.style.opacity = '1';
-            }
-        });
-
-        // Opsional: Klik pada item logout di dalam dropdown juga akan menutup dropdown
-        // Ini memastikan bahwa setelah mengklik "Logout", dropdown profil akan tertutup.
-        const logoutLink = profileDropdown.querySelector('li a[href="Dashboard.html"]');
-        if (logoutLink) {
-            logoutLink.addEventListener('click', function(event) {
-                // Biarkan link melakukan navigasi, tapi tutup dropdown setelah itu
-                closeAllDropdowns();
-                // Jika ingin mencegah navigasi default link logout:
-                // event.preventDefault();
-                // window.location.href = "Dashboard.html"; // Navigasi manual
-            });
-        }
-    }
-
-    // --- Menutup Semua Dropdown saat Klik di Luar ---
-    // Ini adalah event listener global yang akan menutup semua dropdown
-    // jika klik terjadi di luar area navigasi utama dan area profil.
-    document.addEventListener('click', function(event) {
-        const navContainer = document.querySelector('.isi-container');
-        // Mendapatkan LI yang membungkus gambar profil dan dropdown-logo
-        const profileArea = document.querySelector('.logo-i > li:nth-child(2)');
-
-        // Periksa apakah klik terjadi di dalam area navigasi atau area profil
-        const isClickInsideNav = navContainer && navContainer.contains(event.target);
-        const isClickInsideProfileArea = profileArea && profileArea.contains(event.target);
-
-        // Jika klik tidak di dalam area navigasi DAN tidak di dalam area profil, tutup semua dropdown
-        if (!isClickInsideNav && !isClickInsideProfileArea) {
-            closeAllDropdowns();
-        }
-    });
 });
