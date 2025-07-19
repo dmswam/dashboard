@@ -13,9 +13,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.sidebar-nav .dropdown.show, .sidebar-nav .dropdown-nested.show').forEach(dropdown => {
             dropdown.classList.remove('show');
             // Hapus atribut style yang diatur oleh JS agar CSS default (hidden/height:0) berlaku
+            // Ini PENTING untuk me-reset posisi desktop saat beralih ke mobile
             dropdown.style.left = ''; 
             dropdown.style.top = '';  
-            dropdown.style.height = ''; 
+            dropdown.style.height = ''; // Hapus height eksplisit untuk transisi
+            // Di mobile, overflow sudah diatur di CSS, tidak perlu manipulasi JS di sini
         });
 
         document.querySelectorAll('.isi-container > li.active-dropdown').forEach(item => {
@@ -25,8 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
             item.classList.remove('active-nested');
         });
 
-        // Di desktop, sidebar akan tetap auto scroll, tidak perlu set hidden lagi.
-        // Di mobile, sidebar sudah auto scroll dari CSS.
         document.body.classList.remove('no-scroll'); // Pastikan body scroll aktif jika sidebar ditutup
     }
 
@@ -70,9 +70,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
             dropdownElement.style.left = `${leftPosition}px`;
             dropdownElement.style.top = `${topPosition}px`;
+            dropdownElement.style.height = ''; // Hapus height eksplisit untuk desktop
         } else {
-            // Di mobile, set tinggi eksplisit untuk transisi
-            dropdownElement.style.height = `${dropdownElement.scrollHeight}px`; 
+            // Di mobile, dropdown akan dikontrol oleh CSS (height: auto dan overflow)
+            // Kita hanya perlu memastikan class 'show' ditambahkan/dihapus
+            // dan tinggi diatur untuk transisi jika belum
+            if (!dropdownElement.style.height || dropdownElement.style.height === '0px') {
+                dropdownElement.style.height = `${dropdownElement.scrollHeight}px`; 
+            } else {
+                dropdownElement.style.height = '0px'; // Set ke 0 untuk transisi tutup
+            }
         }
     }
 
@@ -105,24 +112,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Penyesuaian saat resize
         window.addEventListener('resize', function() {
+            // Perhatikan bahwa dropdown akan tertutup saat resize, jadi posisi akan di-reset oleh closeAllSidebarDropdowns
+            closeAllSidebarDropdowns(); 
+
+            // Jika dari mobile ke desktop, pastikan sidebar kembali normal
             if (isDesktop()) { 
                 if (sidebarNav.classList.contains('active')) {
                     sidebarNav.classList.remove('active'); 
                 }
                 document.body.classList.remove('no-scroll'); 
-                // sidebarNav.style.overflowY = 'hidden'; // TIDAK PERLU, sudah auto di CSS
-            } else { 
+            } else { // Jika dari desktop ke mobile, sesuaikan body scroll
                 document.body.classList.toggle('no-scroll', sidebarNav.classList.contains('active'));
-                // sidebarNav.style.overflowY = 'auto'; // TIDAK PERLU, sudah auto di CSS
             }
-            closeAllSidebarDropdowns(); 
             if (profileDropdownMenu && profileDropdownMenu.classList.contains('show')) {
                 profileDropdownMenu.classList.remove('show'); 
             }
         });
     }
 
-    // 2. Profile Dropdown
+    // 2. Profile Dropdown (Logic tetap sama)
     if (profileDropdownTrigger && profileDropdownMenu) {
         profileDropdownTrigger.addEventListener('click', function(event) {
             event.stopPropagation(); 
@@ -130,7 +138,6 @@ document.addEventListener('DOMContentLoaded', function() {
             profileDropdownMenu.classList.toggle('show');
         });
 
-        // Menutup dropdown profil jika klik di luar
         document.addEventListener('click', function(event) {
             if (profileDropdownMenu && profileDropdownMenu.classList.contains('show') &&
                 !profileDropdownMenu.contains(event.target) && !profileDropdownTrigger.contains(event.target)) {
@@ -163,6 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const otherDropdown = otherItem.querySelector('.dropdown');
                         if (otherDropdown && otherDropdown.classList.contains('show')) {
                             otherDropdown.classList.remove('show');
+                            // Penting: Reset style untuk dropdown lain
                             otherDropdown.style.left = ''; 
                             otherDropdown.style.top = '';  
                             otherDropdown.style.height = ''; 
@@ -182,15 +190,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!isCurrentlyActive) {
                     item.classList.add('active-dropdown');
                     dropdown.classList.add('show');
-                    setTimeout(() => {
-                        setDropdownPosition(dropdown, link, false);
-                    }, 0);
+                    // Menggunakan setTimeout untuk memastikan DOM dirender sebelum menghitung tinggi
+                    if (!isDesktop()) { // Hanya hitung tinggi untuk transisi di mobile
+                        dropdown.style.height = `${dropdown.scrollHeight}px`;
+                    } else { // Di desktop, panggil setDropdownPosition
+                        setTimeout(() => {
+                            setDropdownPosition(dropdown, link, false);
+                        }, 0);
+                    }
                 } else {
                     item.classList.remove('active-dropdown');
-                    dropdown.classList.remove('show');
-                    dropdown.style.left = '';
-                    dropdown.style.top = '';
-                    dropdown.style.height = '';
+                    if (!isDesktop()) { // Untuk transisi tutup di mobile
+                        dropdown.style.height = '0px';
+                        // Setelah transisi selesai, hapus kelas 'show'
+                        dropdown.addEventListener('transitionend', function handler() {
+                            dropdown.classList.remove('show');
+                            dropdown.removeEventListener('transitionend', handler);
+                        }, { once: true });
+                    } else { // Di desktop, langsung hapus
+                        dropdown.classList.remove('show');
+                        dropdown.style.left = '';
+                        dropdown.style.top = '';
+                    }
+
+                    // Reset semua nested dropdown juga
                     dropdown.querySelectorAll('.dropdown-nested.show').forEach(nested => {
                         nested.classList.remove('show');
                         nested.style.left = '';
@@ -226,10 +249,17 @@ document.addEventListener('DOMContentLoaded', function() {
                             otherNestedItem.classList.remove('active-nested');
                             const otherNestedDropdown = otherNestedItem.querySelector('.dropdown-nested');
                             if (otherNestedDropdown) {
-                                otherNestedDropdown.classList.remove('show');
-                                otherNestedDropdown.style.left = '';
-                                otherNestedDropdown.style.top = '';
-                                otherNestedDropdown.style.height = '';
+                                if (!isDesktop()) {
+                                    otherNestedDropdown.style.height = '0px';
+                                    otherNestedDropdown.addEventListener('transitionend', function handler() {
+                                        otherNestedDropdown.classList.remove('show');
+                                        otherNestedDropdown.removeEventListener('transitionend', handler);
+                                    }, { once: true });
+                                } else {
+                                    otherNestedDropdown.classList.remove('show');
+                                    otherNestedDropdown.style.left = '';
+                                    otherNestedDropdown.style.top = '';
+                                }
                             }
                         }
                     });
@@ -238,15 +268,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!isCurrentlyActive) {
                     nestedItem.classList.add('active-nested');
                     nestedDropdown.classList.add('show');
-                    setTimeout(() => {
-                        setDropdownPosition(nestedDropdown, nestedLink, true);
-                    }, 0);
+                    if (!isDesktop()) { // Hanya hitung tinggi untuk transisi di mobile
+                        nestedDropdown.style.height = `${nestedDropdown.scrollHeight}px`;
+                    } else { // Di desktop, panggil setDropdownPosition
+                        setTimeout(() => {
+                            setDropdownPosition(nestedDropdown, nestedLink, true);
+                        }, 0);
+                    }
                 } else {
                     nestedItem.classList.remove('active-nested');
-                    nestedDropdown.classList.remove('show');
-                    nestedDropdown.style.left = '';
-                    nestedDropdown.style.top = '';
-                    nestedDropdown.style.height = '';
+                    if (!isDesktop()) { // Untuk transisi tutup di mobile
+                        nestedDropdown.style.height = '0px';
+                        nestedDropdown.addEventListener('transitionend', function handler() {
+                            nestedDropdown.classList.remove('show');
+                            nestedDropdown.removeEventListener('transitionend', handler);
+                        }, { once: true });
+                    } else { // Di desktop, langsung hapus
+                        nestedDropdown.classList.remove('show');
+                        nestedDropdown.style.left = '';
+                        nestedDropdown.style.top = '';
+                    }
                 }
             });
         }
@@ -254,13 +295,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Menutup semua dropdown sidebar dan profil saat klik di luar area sidebar dan dropdown
     document.addEventListener('click', function(event) {
-        // Cek jika klik di luar sidebar-nav DAN di luar profileDropdownMenu DAN bukan mobile menu toggle
         const isClickInsideSidebar = sidebarNav.contains(event.target);
         const isClickInsideProfileDropdown = profileDropdownMenu && profileDropdownMenu.contains(event.target);
         const isClickOnProfileTrigger = profileDropdownTrigger && profileDropdownTrigger.contains(event.target);
-        const isClickOnMobileToggle = mobileMenuToggle && mobileMenuToggle.contains(event.target); // Tambahkan ini
+        const isClickOnMobileToggle = mobileMenuToggle && mobileMenuToggle.contains(event.target);
 
-        // Dapatkan semua dropdown yang sedang show (sidebar dan nested)
         const allOpenDropdowns = document.querySelectorAll('.dropdown.show, .dropdown-nested.show');
         let isClickInsideAnySidebarDropdown = false;
         allOpenDropdowns.forEach(dropdown => {
@@ -269,7 +308,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Jika klik tidak di dalam sidebar-nav, tidak di dalam dropdown sidebar yang terbuka, tidak di dalam dropdown profil, dan bukan tombol mobile toggle
         if (!isClickInsideSidebar && !isClickInsideAnySidebarDropdown && !isClickInsideProfileDropdown && !isClickOnProfileTrigger && !isClickOnMobileToggle) {
             closeAllSidebarDropdowns(); 
             if (profileDropdownMenu && profileDropdownMenu.classList.contains('show')) {
