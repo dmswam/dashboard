@@ -1,4 +1,4 @@
-/* dashboard_erp.css - Revisi Penuh untuk Mengizinkan Scroll Horizontal pada Item Dropdown Mobile */
+/* dashboard_erp.css */
 
 /* --- RESET BROWSER DEFAULTS DAN PENGATURAN GLOBAL --- */
 *, *::before, *::after {
@@ -15,7 +15,7 @@ html, body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
   color: #333;
-  background-color: #f4f7f6; /* Warna latar belakang halaman */
+  background-color: #01386A; /* Warna latar belakang halaman */
 }
 
 /* Tambahkan ini untuk mengontrol scroll body saat mobile sidebar aktif */
@@ -77,7 +77,7 @@ body.no-scroll {
 }
 
 .profile-dropdown-trigger {
-  position: relative;
+  position: relative; /* Penting untuk positioning absolute dropdown */
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -114,10 +114,11 @@ body.no-scroll {
 }
 
 .dropdown-logo.show {
+  /* Properti saat dropdown terlihat */
   visibility: visible;
   opacity: 1;
-  transition-delay: 0s;
-  pointer-events: auto;
+  transition-delay: 0s; /* Hapus delay saat muncul */
+  pointer-events: auto; /* Izinkan interaksi saat terlihat */
 }
 
 .dropdown-logo li a {
@@ -125,7 +126,7 @@ body.no-scroll {
   padding: 10px 15px;
   text-decoration: none;
   display: block;
-  white-space: nowrap;
+  white-space: nowrap; /* Pastikan teks tidak melompat baris */
   font-size: 0.95em;
   overflow: hidden; /* Sembunyikan overflow */
   text-overflow: ellipsis; /* Tambahkan elipsis jika teks terlalu panjang */
@@ -595,16 +596,12 @@ body.no-scroll {
       transform: translateX(0);
   }
 
-  /* Hilangkan scrollbar default di mobile (sudah diatur di atas untuk desktop juga) */
-  /* .sidebar-nav::-webkit-scrollbar { width: 0; height: 0; } */
-  /* .sidebar-nav { scrollbar-width: none; } */
-
-
   .isi-container {
-      padding: 15px;
+      padding: 0; /* Ubah padding ini menjadi 0 di sini */
   }
   .isi-container > li {
       margin-bottom: 15px;
+      padding: 8px 15px; /* Tambahkan padding horizontal di sini untuk item utama */
   }
   .isi-container > li img {
       width: 25px;
@@ -612,6 +609,7 @@ body.no-scroll {
   }
   .isi-container > li a {
       font-size: 0.9em;
+      padding-left: 0; /* Reset padding-left dari desktop */
   }
 
   /* --- PENTING: Penyesuaian DROPDOWN untuk mobile sidebar --- */
@@ -624,7 +622,7 @@ body.no-scroll {
       background-color: #f6f6f6;
       box-shadow: none;
       border-top: 1px solid #eee;
-      padding-left: 20px;
+      padding-left: 0; /* Hapus padding-left dari container dropdown */
       overflow: hidden; /* Tetap hidden secara default untuk transisi tinggi */
       z-index: 1; /* Tetap di atas konten lain dalam sidebar */
       visibility: visible; /* Di mobile, visibilitas dikontrol oleh tinggi */
@@ -638,23 +636,28 @@ body.no-scroll {
       height: auto; /* Ini akan memicu transisi tinggi */
       pointer-events: auto; /* Aktifkan interaksi saat show */
       overflow-y: auto; /* Izinkan scroll vertikal jika dropdown sendiri terlalu panjang */
-      /* Biarkan overflow-x hidden di sini untuk container dropdown */
-      overflow-x: hidden;
+      overflow-x: hidden; /* Pastikan tidak ada scroll horizontal pada container dropdown itu sendiri */
   }
-  .dropdown-nested {
+  /* Hapus padding-left dari .dropdown-nested */
+  /* .dropdown-nested {
       padding-left: 40px;
-  }
+  } */
 
   /* Gaya untuk A di dalam dropdown (Mengizinkan Scroll Horizontal pada Item Link) */
   .dropdown li a, .dropdown-nested li a {
       white-space: nowrap; /* Teks tetap dalam satu baris */
-      /* Ini adalah properti krusial untuk scroll horizontal pada link itu sendiri */
-      overflow-x: auto;
+      overflow-x: auto; /* IZINKAN SCROLL HORIZONTAL DI SINI */
       -webkit-overflow-scrolling: touch; /* Untuk pengalaman scroll yang lebih baik di iOS */
       display: block; /* Pastikan display block agar overflow bekerja */
       /* Tambahkan padding di kanan agar scrollbar (jika muncul) tidak menutupi teks */
       padding-right: 25px;
+      /* Tambahkan padding-left di sini untuk indentasi */
+      padding-left: 30px; /* Indentasi untuk level 1 dropdown */
   }
+  .dropdown-nested li a {
+      padding-left: 50px; /* Indentasi untuk level 2 (30px dari parent level 1 + 20px tambahan) */
+  }
+
 
   /* Opsi: Sembunyikan scrollbar horizontal pada item link dropdown jika tidak ingin terlihat permanen */
   .dropdown li a::-webkit-scrollbar, .dropdown-nested li a::-webkit-scrollbar {
