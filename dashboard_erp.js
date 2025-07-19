@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // =====================================
+    // BAGIAN 1: Fungsionalitas Dropdown Navigasi
+    // Meliputi: Mobile menu toggle, dropdown sidebar utama, dropdown sidebar bersarang, dan dropdown profil.
+    // =====================================
+
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const sidebarNav = document.querySelector('.sidebar-nav');
     const profileDropdownMenu = document.querySelector('.dropdown-logo');
@@ -62,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (leftPosition < 10) { // 10px margin dari kiri
                     leftPosition = 10;
                 }
-                 // Penyesuaian jika dropdown keluar dari viewport kanan
+                   // Penyesuaian jika dropdown keluar dari viewport kanan
                 if (leftPosition + dropdownWidth > viewportWidth - 10) {
                     leftPosition = viewportWidth - dropdownWidth - 10;
                 }
@@ -131,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (profileDropdownMenu && profileDropdownMenu.classList.contains('show')) {
                 profileDropdownMenu.classList.remove('show');
                 profileDropdownMenu.style.left = ''; // Reset profil dropdown position
-                profileDropdownMenu.style.top = '';   // Reset profil dropdown position
+                profileDropdownMenu.style.top = '';  // Reset profil dropdown position
                 profileDropdownMenu.style.position = ''; // Reset position
             }
         });
@@ -218,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (profileDropdownMenu && profileDropdownMenu.classList.contains('show')) {
                     profileDropdownMenu.classList.remove('show');
                     profileDropdownMenu.style.left = ''; // Reset profil dropdown position
-                    profileDropdownMenu.style.top = '';   // Reset profil dropdown position
+                    profileDropdownMenu.style.top = '';  // Reset profil dropdown position
                     profileDropdownMenu.style.position = ''; // Reset position
                 }
 
@@ -375,76 +380,92 @@ document.addEventListener('DOMContentLoaded', function() {
             if (profileDropdownMenu && profileDropdownMenu.classList.contains('show')) {
                 profileDropdownMenu.classList.remove('show');
                 profileDropdownMenu.style.left = ''; // Reset profil dropdown position
-                profileDropdownMenu.style.top = '';   // Reset profil dropdown position
+                profileDropdownMenu.style.top = '';  // Reset profil dropdown position
                 profileDropdownMenu.style.position = ''; // Reset position
             }
         }
     });
-});
 
-// Chart.js (Pastikan script ini ada di dashboard_erp.js Anda)
-var salesCtx = document.getElementById('salesChart').getContext('2d');
-var salesChart = new Chart(salesCtx, {
-    type: 'line',
-    data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-        datasets: [{
-            label: 'Sales Rupiah',
-            data: [120, 190, 300, 500, 200, 300, 450, 550, 600, 700, 800, 900],
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 2,
-            tension: 0.4,
-            fill: true
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            y: {
-                beginAtZero: true
+    // =====================================
+    // BAGIAN 2: Fungsionalitas Manajemen Data Organisasi
+    // Meliputi: Render tabel anggota, update, dan delete data anggota.
+    // =====================================
+
+    const organisasiTableBody = document.getElementById('organisasiTableBody');
+
+    // Fungsi untuk me-render ulang tabel anggota
+    function renderAnggotaTable() {
+        let daftarAnggota = JSON.parse(localStorage.getItem('daftarAnggota')) || [];
+
+        if (!organisasiTableBody) {
+            console.error("Elemen <tbody> tabel tidak ditemukan! Pastikan id='organisasiTableBody' ada di HTML Anda.");
+            return;
+        }
+
+        organisasiTableBody.innerHTML = ''; // Kosongkan tbody sebelum mengisi data
+
+        if (daftarAnggota.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="4" style="text-align: center;">Belum ada data anggota.</td>`;
+            organisasiTableBody.appendChild(row);
+        } else {
+            daftarAnggota.forEach(anggota => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${anggota.nomor_anggota}</td>
+                    <td>${anggota.nama_anggota}</td>
+                    <td>${anggota.jenis_jabatan}</td>
+                    <td>
+                        <button class="update-button" data-id="${anggota.id}">Update</button>
+                        <button class="delete-button" data-id="${anggota.id}">Hapus</button>
+                    </td>
+                `;
+                organisasiTableBody.appendChild(row);
+            });
+        }
+    }
+
+    // Panggil fungsi renderAnggotaTable saat DOMContentLoaded
+    renderAnggotaTable();
+
+    // --- Event Listener untuk Tombol Update dan Delete ---
+    organisasiTableBody.addEventListener('click', function(event) {
+        const target = event.target;
+        const anggotaId = target.getAttribute('data-id'); // Mengambil ID unik yang kita simpan
+
+        if (target.classList.contains('update-button')) {
+            if (anggotaId) {
+                // Simpan ID anggota yang akan diupdate ke localStorage
+                localStorage.setItem('editAnggotaId', anggotaId);
+                // Lalu mengalihkan ke form input organisasi2.html untuk diedit
+                window.location.href = 'organisasi2.html';
+            } else {
+                console.error("ID Anggota tidak ditemukan untuk update.");
             }
-        },
-        plugins: {
-            legend: {
-                display: true,
-                position: 'top',
-            },
-            tooltip: {
-                mode: 'index',
-                intersect: false,
-            },
-            annotation: {
-                annotations: {
-                    line1: {
-                        type: 'line',
-                        yMin: 500,
-                        yMax: 500,
-                        borderColor: 'rgb(255, 99, 132)',
-                        borderWidth: 2,
-                        label: {
-                            content: 'Target',
-                            enabled: true,
-                            position: 'start'
-                        }
-                    }
-                }
+        } else if (target.classList.contains('delete-button')) {
+            if (anggotaId) {
+                handleDeleteAnggota(anggotaId);
+            } else {
+                console.error("ID Anggota tidak ditemukan untuk delete.");
+            }
+        }
+    });
+
+    // --- Fungsi Handler untuk Delete Anggota ---
+    function handleDeleteAnggota(id) {
+        if (confirm(`Apakah Anda yakin ingin menghapus anggota ini?`)) {
+            let daftarAnggota = JSON.parse(localStorage.getItem('daftarAnggota')) || [];
+
+            // Filter array, sisakan hanya yang ID-nya TIDAK sama dengan ID yang akan dihapus
+            const updatedDaftarAnggota = daftarAnggota.filter(anggota => anggota.id !== parseInt(id));
+
+            if (updatedDaftarAnggota.length < daftarAnggota.length) {
+                localStorage.setItem('daftarAnggota', JSON.stringify(updatedDaftarAnggota));
+                alert(`Data anggota berhasil dihapus.`);
+                renderAnggotaTable(); // Render ulang tabel untuk menampilkan perubahan
+            } else {
+                alert(`Data anggota tidak ditemukan.`);
             }
         }
     }
-});
-
-// OpenLayers (Pastikan script ini ada di dashboard_erp.js Anda)
-var map = new ol.Map({
-    target: 'map',
-    layers: [
-        new ol.layer.Tile({
-            source: new ol.source.OSM()
-        })
-    ],
-    view: new ol.View({
-        center: ol.proj.fromLonLat([106.816666, -6.200000]), // Contoh koordinat Jakarta
-        zoom: 10
-    })
 });
