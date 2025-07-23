@@ -702,7 +702,8 @@ border-top-right-radius: 10px;
 
   .input-group {
     margin-top: 100px;
-    margin-left: 250px;
+    margin-left: 150px;
+    margin-right:150px;
       padding: 15px;
     
       /* KUNCI: Sesuaikan max-height untuk mobile */
