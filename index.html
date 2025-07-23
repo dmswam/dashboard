@@ -1,14 +1,12 @@
 <html>
-  <head>
-    <!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
-    <title>pesanan penjualan</title>
-  <link rel="stylesheet" href="dashboard_erp.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  </head>
+  <head><title>ceo dashboard</title>
+  <link rel="stylesheet" href="data_karyawan2.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+ 
+</head>
 <body>
- <!-- Header Utama Halaman -->
-    <header class="main-header">
+      <!-- Header Utama Halaman -->
+      <header class="main-header">
         <div class="header-left">
             <img src="icon/logo_cross-removebg-preview.png" alt="Company Logo" class="company-logo">
             <!-- Tombol Menu Hamburger untuk Mobile (akan disembunyikan di desktop oleh CSS) -->
@@ -212,33 +210,114 @@
         </div>
 
 
-<div class="isi-co">
-    <h3 class="pj">Daftar Anggota</h3>
 
 
+    
 
+<div class="input-group">
+    <form id="datakaryawan">
+        <label for="id_karyawan">ID Karayawan</label>
+        <input type="int" id="id_karyawan" name="id_karyawan" required>
+        <br>
+        <label for="nama_karyawan">Nama Karyawan</label>
+        <input type="text" id="nama_karyawan" name="nama_karyawan" required>
+        <br>
+        <label for="jabatan_karyawan">Jabatan Karyawan</label>
+        <select name="jabatan_karyawan" id="jabatan_karyawan">
+            <option value="staffa kuntansi"> Staff Akuntansi </option>
+            <option value="akuntan pajak"> Akuntan Pajak </option>
+            <option value="manajer keuangan">Manajer Keuangan </option>
+            <option value="direktur keuangan"> Direktur Keuangan / CFO </option>
+            <option value="staff pemasaran"> Staff Pemasaran </option>
+            <option value="spesialisasi marketing"> Spesialisasi Digital Marketing </option>
+            <option value="manajer pemasaran"> Manajer Pemasaran </option>
+            <option value="kepala departement pemasaran"> Kepala Departemen Pemasaran / CMO </option>
+            <option value="sales executive"> Sales Executive </option>
+            <option value="sales manager"> Sales Manager </option>
+            <option value="kepala departemen penjualan"> Kepala Departemen Penjualan </option>
+            <option value="staff hrd"> Staff HRD </option>
+            <option value="spesialis rekruitmen"> Spesialis Rekruitmen </option>
+            <option value="manajer pelatihan"> Manajer Pelatihan dan Pengembangan </option>
+            <option value="kepala departemen sdm"> Kepala Departemen Sumber Daya Manusia / CHRO </option>
+            <option value="operator produksi"> Operator Produksi </option>
+            <option value="suverpisor produksi"> Supervisor Produksi </option>
+            <option value="manajer operasional"> Manajer Operasional </option>
+            <option value="kepala departemen operasional"> Kepala Departemen Operasional /COO </option>
+            <option value="technical support staff"> Technical Support Staff </option>
+            <option value="software engineer"> Software Engineer </option>
+            <option value="system administrator"> System Administrator </option>
+            <option value="manajer IT"> Manajer IT </option>
+            <option value="kepala departemen TI"> Kepala Departement TI (CIO) </option>
+            <option value="peneliti"> Peneliti </option>
+            <option value="kepala departemen R&D"> Kepala Departemen R&D </option>
+            <option value="staff pembelian"> Staff Pembelian </option>
+            <option value="buyer"> Buyer/Purchaser </option>
+            <option value="manajer pembelian"> Manajer Pembelian </option>
+            <option value="staff logistik"> Staff Logistik </option>
+            <option value="koordinator gudang"> Koordinator Gudang </option>
+            <option value="manajer logistik"> Manajer Logistik </option>
+            <option value="customer service"> Customer Service Representative </option>
+            <option value="legal counsel"> Legal Counsel </option>
+            <option value="general counsel"> General Counsel </option>
+            <option value="staff adminstrasi"> Staff Administrasi </option>
+            <option value="sekretaris"> Sekretaris </option>
+            <option value="kepala departemen administrasi"> Kepala Deparement Adiministrasi </option>
+            <option value="internal auditor"> Internal Auditor </option>
+            <option value="kepala departemen audit internal"> Kepala Departemen Audit Interal </option>
+            <option value="staff quality control"> Staff Quality Control </option>
+            <option value="manajer kualitas"> Manajer Kualitas </option>
+            <option value="kepala departemen kualitas"> Kepala Departemen Kualitas </option>
+            <option value="spesialis komunikasi"> Spesialis Komunikasi </option>
+            <option value="manajer komunikasi"> Manajer Komunikasi </option>
+            <option value="kepala departemen komunikasi"> Kepala Departemen Komunikasi </option>
+            </select>
+        <br>
+        <label for="email_karyawan">Email Karyawan</label>
+        <input type="email" id="email_karyawan" name="email_karyawan" required>
+        <br>
+        <label for="rekening_karyawan">Rekening Karayawan</label>
+        <input type="int" id="rekening_karyawan" name="rekening_karyawan" required>
+        <br>
 
+        
+        <label for="tgl_masuk_karyawan">Tanggal Masuk</label>
+        <input type="date" id="tgl_masuk_karyawan" name="tgl_masuk_karyawan" required>
+        <br>
+        <label for="npwp_karyawan">NPWP Karyawan</label>
+        <input type="text" id="npwp_karyawan" name="npwp_karyawan" required>
+        <br>
+        <label for="departement">Departemen Karyawan</label>
+        <select name="departement" id="departement">
+            <option value="departemen keuangan"> Departemen Keuangan </option>
+            <option value="departemen pemasaran">Departemen Pemasaran </option>
+            <option value="departemen penjualan"> Departemen Penjualan </option>
+            <option value="departemen sdm"> Departemen Sumber Daya Manusia (HRD) </option>
+            <option value="departemen operasional"> Departemen Operasional </option>
+            <option value="departemen informasi teknologi"> Departemen Teknologi Informasi (TI) </option>
+            <option value="departemen penelitian & pengembangan"> Departemen Penelitian & Pengembangan (R&D) </option>
+            <option value="departemen pembelian"> Departemen Pembelian/Pengadaan </option>
+            <option value="departemen rantai pasok"> Departemen Logistik/Rantai Pasok </option>
+            <option value="departemen layananpe langgan"> Departemen Layanan Pelanggan </option>
+            <option value="departemen hukum"> Departemen Hukum </option>
+            <option value="departemen administrasi"> Departemen Administrasi </option>
+            <option value="departemen audit internal"> Departemen Audit Internal </option>
+            <option value="departemen kualitas"> Departemen Kualitas </option>
+            <option value="departemen komunikasi"> Departemen Komunikasi </option>
 
-  <div class="add">
-    <a href="organisasi2.html"><button type="button">Tambah Anggota</button></a>
-  </div>
-  <div class="table-container">
-    <table id="myTable" class="table" border="1">
-        <thead>
-            <tr>
-                <th class="k">ID Anggota</th>
-                <th class="kt">Nama Anggota</th>
-                <th class="spp">Jabatan</th>
-                <th class="keterangan">Aksi</th> </tr>
-        </thead>
-        <tbody id="organisasiTableBody">
-            </tbody>
-    </table>
+           </select>
+          
+    </form>
+    <div class="d-flex justify-content-end gap-2">
+      <a href="data_karyawan.html" id="linkSimpan"><button type="button" class="simpan">Simpan</button></a>
+      <a href="data_karyawan.html" id="linkBatal"><button type="button"class="batal">Batal</button></a>
+      </div>
 </div>
-</div>
-</div>
 
 
-<script src="dashboard_erp.js"></script>
+
+
+</div>
+
+<script src="data_karyawan2.js"></script>
 </body>
 </html>
