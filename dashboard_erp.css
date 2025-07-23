@@ -696,9 +696,9 @@ border-top-right-radius: 10px;
   }
 
   .input-group {
-  margin-top: -300px;
+  margin-top: 30px;
       padding: 15px;
-     margin:auto; /* Kurangi margin horizontal */
+   
       /* KUNCI: Sesuaikan max-height untuk mobile */
       max-height: calc(100vh); /* Contoh: tinggi viewport dikurangi header, judul, margin, dan tombol */
   }
