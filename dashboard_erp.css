@@ -352,312 +352,255 @@ body.no-scroll {
 
 
 
-/* --- INPUT GROUP (Specific styling to revert to original) --- */
+
+
+
+
+
+
+
 .input-group {
   background-color: #fff;
-  position: fixed; /* Reverted to fixed position */
-  left: 250px; /* Original fixed left position, aligns with sidebar */
-  width: 961px; /* Original fixed width */
   padding: 20px;
-  height: 500px; /* Original fixed height */
-  margin-left: 20px; /* Original fixed margin-left */
-  margin-top: 30px; /* Original fixed margin-top */
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  overflow-y: auto; /* Izinkan scroll vertikal di area konten ini */
-  -webkit-overflow-scrolling: touch;
-  max-width: calc(100% - 290px); /* 100% - sidebar width - margin-left - margin-right */
-
-  /* Removed display:flex and flex-direction for this container to allow original static flow */
+  margin-left: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px; /* Space below this section */
+  position: relative; /* For containing the button */
+  margin-top: 20px;
+  width: 80%;
+  /* KUNCI: Membuat input-group bisa di-scroll secara internal */
+  max-height: calc(100vh); /* Contoh: tinggi viewport dikurangi header, judul, margin, dan tombol. Sesuaikan nilai ini! */
+  overflow-y: auto; /* Membuat scrollbar vertikal muncul */
+  display: flex; /* Atur flexbox untuk elemen di dalamnya */
+  flex-direction: column; /* Tata elemen dalam input-group secara vertikal */
+  gap: 10px; /* Jarak antar elemen input di dalam form */
+border-top-left-radius: 10px;
+border-top-right-radius: 10px;
 }
+
+.pu{
+    color: #01386A;
+    font-style: italic;
+    font-size: 25px;
+   
+    margin-left: 0px;
+ 
+
+  
+}
+.tabel1{
+    z-index: 1000;
+    margin-left: 500px;
+    margin-top: 500px;
+    position: fixed;
+}
+.tabel{
+    z-index: 1000;
+    margin-left: 800px;
+    margin-top: 300px;
+    position: fixed;
+}
+.kolom{
+    background-color: #01386A;
+}
+
+.totalgaji{
+    width: 100px;
+    height: 50px;
+}
+
+
+
+
 
 .input-group label {
-  margin-bottom: 5px;
+    /* display: block; */
+    margin-bottom: 5px;
+    
+  }
+  
+  .input-group input {
+    width: 200px;
+    height: 30px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #EAEAEA;
+  }
+  
+  .input-group small {
+    color: #888;
+    
+  }
+
+#tanggal{
+  background-color: #ddd;
+  width: 200px;
+  height: 50px;
+  padding: 3px;
+  border-radius: 10px;
+  border-color: #000;
+}
+  #tipe{
+    margin-bottom: 20px;
+  }
+
+.isi-tabel{
+    background-color: #fff;
+    height: 500px;
 }
 
-.input-group input {
-  width: 200px; /* Original fixed width */
+.tabel-container {
+    position: absolute;
+    /* top: 90px !important; */
+    left: 250px; /* Menyesuaikan dengan sidebar */
+    /* width: calc(100% - 250px); Supaya tabel tidak melebar ke sidebar */
+    display: flex;
+    justify-content: flex-start;
+    padding: 20px;
+    width: 30%;
+
+  }
+/* --- Table Container --- */
+.table-container {
+  /* Hapus margin-top dan margin-left yang fixed/absolute */
+  margin: 0 10px; /* Margin horizontal agar tidak menempel ke sisi */
+  
+ 
+  overflow-x: auto; /* Penting! Ini membuat tabel dapat discroll secara horizontal */
+  -webkit-overflow-scrolling: touch;
+  height: 300px;
+}
+
+.table { /* Menggunakan kelas .table yang ada di HTML */
+  width: 100%; /* Lebar 100% dari container */
+  border-collapse: collapse;
+  /* min-width: 900px; */ /* Minimum width opsional untuk memaksa scroll jika tabel sangat lebar */
+  background-color: #fff;
+  margin-top: 0px;/* Hapus margin lain */
+  border-radius: 8px; /* Sesuaikan border-radius */
   height: 30px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #EAEAEA;
-  /* Reverted individual input margins */
+  overflow-x: auto; /* Penting! Ini membuat tabel dapat discroll secara horizontal */
+  -webkit-overflow-scrolling: touch;
 }
 
-.input-group select {
-  width: 200px; /* Original fixed width */
-  height: 40px;
-  padding: 0; /* Adjust padding for select if needed */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #EAEAEA;
-  margin-bottom: 20px; /* Original margin-bottom for select */
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 10px; /* Tambah padding untuk keterbacaan */
+  text-align: left;
+  white-space: nowrap; /* Mencegah teks wrapping di sel tabel */
 }
 
-/* Reverted individual input specific margins */
-#id_karyawan {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-left: 115px;
+.table th {
+  background: linear-gradient(#014888, #001222);
+  color: #fff;
+  text-align: center;
+  height: 45px; /* Sedikit lebih kecil dari 50px */
+  font-size: 0.9em;
+  padding: 10px 5px; /* Padding untuk header */
 }
-#nama_karyawan {
-  margin-left: 100px;
-  margin-bottom: 20px;
+
+.table thead tr:first-child th:first-child {
+  border-top-left-radius: 8px;
 }
-#jabatan_karyawan {
-  margin-left: 85px;
-  margin-bottom: 20px;
+.table thead tr:first-child th:last-child {
+  border-top-right-radius: 8px;
 }
-#email_karyawan {
-  margin-left: 105px;
-  margin-bottom: 20px;
+
+.table td {
+  font-size: 0.8em; /* Ukuran font lebih kecil untuk data */
 }
-#rekening_karyawan {
+
+
+.th{
+    background:linear-gradient(#014888,#001222);
+    color: #fff;
+    text-align: center;
+    width:10.67%;
+    height: 40px;
+}
+.pu{
+    color: #01386A;
+    font-style: italic;
+    font-size: 20px;
+  
+   
+  
+}
+
+
+
+
+
+
+
+  #id_supplier{
+  
+    margin-bottom: 20px;
+    margin-left: 95px;
+  }
+  #nama_supplier{
+    margin-left: 70px;
+    margin-bottom: 20px;
+}
+
+#no_supplier{
+    margin-left: 60px;
+    margin-bottom: 20px;
+    
+}
+#email_supplier{
+    margin-left: 80px;
+    margin-bottom: 20px;
+  
+}
+
+
+#hutang_supplier{
+    margin-left: 70px;
+    margin-bottom: 20px;
+  
+}
+#rekening_supplier{
+  margin-left: 30px;
+  margin-bottom: 20px;
+
+}
+#alamat_supplier{
   margin-left: 70px;
   margin-bottom: 20px;
-}
-#tgl_masuk_karyawan {
-  margin-left: 115px;
-  margin-bottom: 20px;
-}
-#npwp_karyawan {
-  margin-left: 100px;
-  margin-bottom: 20px;
-}
-#departement {
-  margin-left: 60px;
-  margin-bottom: 20px;
+
 }
 
-.simpan {
+
+.simpan{
   background-color: #01386A;
   color: #fff;
-  margin-left: 0px; /* Original fixed margin-left */
-  width: 80px; /* Original fixed width */
-  height: 30px; /* Original fixed height */
-   /* Reverted to fixed position */
-  margin-top: 20px; /* Original fixed margin-top */
+  margin-left: 10px;
+  width: 80px;
+  height: 30px;
+  margin-top: 50px;
+
   border-radius: 10px;
-  cursor: pointer;
 }
-.batal {
+.batal{
   background-color: #6a0101;
   color: #fff;
-  margin-left: 100px; /* Original fixed margin-left */
-  width: 80px; /* Original fixed width */
-  height: 30px; /* Original fixed height */
-   /* Reverted to fixed position */
-  margin-top: 20px; /* Original fixed margin-top */
+  margin-left: 30px;
+  width: 80px;
+  height: 30px;
+
   border-radius: 10px;
-  cursor: pointer;
 }
+  
 
 
-#formData {
-  display: grid;
-  /* Ini mendefinisikan kolom:
-     Kolom pertama (untuk label): Lebar tetap 120px (sesuaikan jika perlu)
-     Kolom kedua (untuk input/select): Mengisi sisa ruang yang tersedia (1fr) */
-  grid-template-columns: 120px 1fr;
-  gap: 15px 10px; /* Jarak vertikal antar baris (15px) dan horizontal antar kolom (10px) */
-  max-width: 500px; /* Batasi lebar maksimum form agar tidak terlalu lebar */
-  }
-
-#formData label {
-  text-align: right; /* Rata kanan teks label agar sejajar dengan input */
-  padding-right: 15px; /* Jarak antara teks label dan input */
-  line-height: 2; /* Menyelaraskan teks label secara vertikal dengan input */
-  align-self: center; /* Pusatkan label secara vertikal di dalam sel grid */
-  font-weight: 500; /* Sedikit lebih tebal untuk label */
-  color: #333;
-}
-
-#formData input,
-#formData select {
-  width: 100%; /* Pastikan input dan select mengisi seluruh lebar kolom yang tersedia */
-  padding: 10px 12px;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
-  box-sizing: border-box; /* Penting: padding dan border tidak menambah lebar elemen */
-  font-size: 1rem;
-  color: #555;
-  /* Hapus default styling untuk panah di select jika tidak diinginkan */
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f8f8f8; /* Warna latar belakang input/select */
-}
-
-/* Untuk icon kalender pada input date dan icon jam pada input time */
-#formData input[type="date"],
-#formData input[type="time"] {
-  position: relative;
-  padding-right: 40px; /* Tambahkan padding agar icon tidak tumpang tindih dengan teks */
-}
-
-/* Opsional: Styling fokus */
-#formData input:focus,
-#formData select:focus {
-  border-color: #007bff; /* Warna border saat fokus */
-  outline: none; /* Hapus outline bawaan browser */
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Efek bayangan saat fokus */
-}
-
-/* Styling untuk select agar mirip input */
-#ekspedisi {
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666666%22%20d%3D%22M287%2069.6%20146.2%20208.4%205.4%2069.6z%22%2F%3E%3C%2Fsvg%3E');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 12px;
-  padding-right: 30px; /* Sesuaikan padding agar tidak menutupi panah kustom */
-}
-
-/* Styling untuk <br> agar tidak mengganggu layout Grid */
-#formData br {
-  display: none; /* Sembunyikan tag <br> karena Grid sudah mengatur baris baru */
-}
-
-/* --- MEDIA QUERIES UNTUK RESPONSIBILITAS (Adjustments for input-group) --- */
-
-/* Untuk layar yang lebih kecil dari 768px (umumnya tablet dalam potret dan ponsel) */
-@media (max-width: 768px) {
+ 
+/* Tablet dan Mobile (ukuran layar <= 992px) */
+@media (max-width: 992px) {
   .main-header {
-      padding: 10px;
-      justify-content: space-between;
-  }
-
-  .header-left {
-      justify-content: flex-start;
-  }
-
-  .mobile-menu-toggle {
-      display: block;
-  }
-
-  .user-profile-area {
-      margin-left: auto;
-  }
-
-  .main-layout-container {
-      flex-direction: column;
-      height: auto;
-      margin-top: 60px;
-  }
-
-  .sidebar-nav {
-      position: fixed;
-      top: 60px;
-      left: 0;
-      width: 250px;
-      height: calc(100vh - 60px);
-      transform: translateX(-100%);
-      box-shadow: 3px 0 8px rgba(0,0,0,0.2);
-      z-index: 180;
-  }
-
-  .sidebar-nav.active {
-      transform: translateX(0);
-  }
-
-  .isi-container > li {
-      padding: 12px 15px;
-  }
-
-  .dropdown,
-  .dropdown-nested {
-      position: static;
-      visibility: visible;
-      opacity: 1;
-      box-shadow: none;
-      border-radius: 0;
-      background-color: #f8f8f8;
-      width: 100%;
-      min-width: unset;
-      padding-left: 20px;
-      transition: none;
-      pointer-events: auto;
-      display: none;
-  }
-
-  .dropdown.show,
-  .dropdown-nested.show {
-      display: block;
-  }
-
-  .dropdown li a,
-  .dropdown-nested li a {
-      padding: 10px 10px;
-      font-size: 0.9em;
-  }
-
-  /* --- Reverting .input-group behavior for smaller screens as per request --- */
-  /*
-    Warning: Keeping fixed positioning and explicit widths/heights
-    on smaller screens will likely cause horizontal scrolling issues
-    or elements to go off-screen. This is generally not recommended
-    for a responsive design.
-  */
-  .pu {
-      /* You will likely need to adjust this for mobile */
-      margin-left: 20px; /* Example adjustment */
-      margin-top: 80px; /* Example adjustment */
-      position: relative; /* Changing to relative on mobile is usually better */
-      width: calc(100% - 40px); /* Adjust width to fit */
-      text-align: center; /* Center text */
-  }
-
-  .input-group {
-      position: relative; /* Change to relative for mobile layout */
-      left: 0; /* Remove fixed left */
-      width: calc(100% - 40px); /* Adjust width to fill container minus margins */
-      margin: 20px; /* Adjust margin */
-      height: auto; /* Allow height to adjust based on content */
-      display: block; /* Revert to block layout if not using flex */
-      max-width: none; /* No max-width on mobile */
-      box-sizing: border-box; /* Crucial for width calculations */
-  }
-
-  .input-group form {
-      width: 100%;
-  }
-
-  .input-group label,
-  .input-group input,
-  .input-group select {
-      width: 100%; /* Make inputs and selects full width on mobile */
-      margin-left: 0; /* Remove fixed left margins */
-      margin-right: 0;
-      margin-bottom: 15px; /* Add some spacing */
-      max-width: none; /* Remove max-width on mobile */
-      display: block; /* Ensure they take full line */
-  }
-
-  /* Adjust specific input margins for mobile if still needed */
-  #nomor_anggota,
-  #nama_anggota,
-  #jenis_jabatan {
-      margin-left: 0; /* Ensure these are also reset */
-  }
-
-  .simpan,
-  .batal {
-      position: static; /* Change to static for mobile */
-      width: 100%; /* Make buttons full width */
-      margin-left: 0; /* Remove fixed margin */
-      margin-top: 10px; /* Adjust top margin for spacing */
-      display: block; /* Make them stack */
-  }
-  .simpan + .batal { /* If you want space between stacked buttons */
-      margin-top: 10px;
-  }
-}
-
-/* Untuk layar yang lebih kecil dari 480px (umumnya ponsel) */
-@media (max-width: 480px) {
-  .main-header {
-      padding: 8px 15px;
       height: 50px;
+      padding: 5px 10px;
   }
 
   .company-logo {
@@ -665,51 +608,180 @@ body.no-scroll {
   }
 
   #ic {
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
   }
 
   .mobile-menu-toggle {
-      font-size: 1.6em;
+      display: block;
+  }
+
+  .sidebar-nav {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      height: 100vh;
+      width: 250px;
+      transform: translateX(0%);
+      box-shadow: 3px 0 8px rgba(0,0,0,0.2);
+      padding-top: 60px;
+      z-index: 250;
+  }
+
+  .sidebar-nav.active {
+      transform: translateX(250px);
   }
 
   .main-layout-container {
       margin-top: 50px;
+      flex-direction: column; /* Stack vertikal */
+      min-height: calc(100vh - 50px);
+      height: auto; /* Sesuaikan tinggi agar konten main-content bisa menyesuaikan */
   }
 
-  .sidebar-nav {
-      width: 200px;
-      height: calc(100vh - 50px);
+  .main-content {
+      padding: 15px; /* Kurangi padding */
+      height: auto; /* Penting: agar konten tidak terpotong */
+      /* overflow-y: hidden; /* Dihapus dari sini */
   }
 
-  .isi-container > li {
+  /* Override untuk dropdown sidebar di mobile (level 1 & 2) */
+  .sidebar-nav .dropdown,
+  .sidebar-nav .dropdown-nested {
+      position: absolute; /* Bukan static */
+      top: 100%; /* Posisi dropdown di bawah parent */
+      left: 0;
+      z-index: 9999; /* Z-index tinggi agar tampil paling atas */
+      
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 0;
+      background-color: #f9f9f9;
+      margin-left: 0;
+      padding: 0.5rem 0;
+      min-width: 100%; /* Menyesuaikan lebar parent */
+      
+      transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+      max-height: 0;
+      opacity: 0;
+      visibility: hidden;
+      overflow: hidden; /* Untuk animasi max-height */
+  }
+  
+
+  .sidebar-nav .dropdown li a,
+  .sidebar-nav .dropdown-nested li a {
+      padding: 0.5rem 1rem 0.5rem 2rem;
       font-size: 0.9em;
-      padding: 10px 10px;
   }
 
-  .isi-container > li img {
-      width: 25px;
-      height: 25px;
+  .sidebar-nav .dropdown.show,
+  .sidebar-nav .dropdown-nested.show {
+      max-height: 500px;
+      opacity: 1;
+      visibility: visible;
+      display: block;
   }
 
-  .pu {
-      font-size: 18px;
-      margin: 15px; /* More consistent margins */
+  .atas {
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+      margin-right: 0;
+      height: auto;
+      position: static;
+      top: auto;
+      left: auto;
+      padding: 0;
   }
 
   .input-group {
-      margin: 15px; /* More consistent margins */
-      padding: 10px; /* Smaller padding */
+      padding: 15px;
+     margin:auto; /* Kurangi margin horizontal */
+      /* KUNCI: Sesuaikan max-height untuk mobile */
+      max-height: calc(100vh); /* Contoh: tinggi viewport dikurangi header, judul, margin, dan tombol */
   }
 
-  .input-group input,
+  .input-group #form-payroll {
+      grid-template-columns: 1fr; /* Tata menjadi satu kolom di mobile */
+      gap: 10px;
+  }
+
+  .input-group label {
+      width: 100%;
+      text-align: left; /* Sesuaikan jika label harus rata kiri */
+  }
+
+  .input-group input[type="date"],
+  .input-group input[type="text"],
+  .input-group input[type="number"],
   .input-group select {
-      height: 28px;
-      padding: 8px;
+      width: 100%;
+      margin-left: 0;
   }
 
-  .simpan,
-  .batal {
-      height: 32px;
+  .button-container {
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 95%; /* Batasi lebar tombol */
+      margin-left: auto;
+      margin-right: auto;
   }
+
+  .simpan, .batal {
+      width: 100%;
+      max-width: 200px; /* Max width untuk tombol */
+      margin-left: auto;
+      margin-right: auto;
+  }
+
+  .table-container {
+      margin: 0 5px;
+      padding: 10px;
+  }
+
+  .table th, .table td {
+      padding: 8px;
+      font-size: 0.85em;
+  }
+}
+
+/* Hanya Mobile (ukuran layar <= 768px) */
+@media (max-width: 768px) {
+  /* .top-nav-links {
+      gap: 5px;
+  }
+
+  .top-nav-links a {
+      min-width: 80px;
+      height: 30px;
+      font-size: 0.7em;
+  } */
+
+  .input-group .add button {
+      font-size: 14px;
+      padding: 8px 15px;
+  }
+
+  .table th, .table td {
+      font-size: 0.75em;
+  }
+}
+
+
+/* Overlay saat sidebar aktif di mobile */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 200; /* Di antara header dan sidebar */
+}
+
+.sidebar-nav.active ~ .sidebar-overlay {
+  display: block;
 }
