@@ -1,323 +1,215 @@
-<html>
-  <head><title>ceo dashboard</title>
-  <link rel="stylesheet" href="dashboard_erp.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
- 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CROSS - ERP Edukasi</title>
+    <link rel="stylesheet" href="dashboard_erp.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-      <!-- Header Utama Halaman -->
-      <header class="main-header">
-        <div class="header-left">
-            <img src="icon/logo_cross-removebg-preview.png" alt="Company Logo" class="company-logo">
-            <!-- Tombol Menu Hamburger untuk Mobile (akan disembunyikan di desktop oleh CSS) -->
-            <button class="mobile-menu-toggle" aria-label="Toggle Navigation">
+
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+              <a href="#home">
+                  <img src="icon/logo_cross-removebg-preview.png" alt="EduSmart Logo"/>
+                
+              </a>
+          </div>
+            <nav class="main-nav">
+                <ul>
+                    <!-- <li><a href="#home">Beranda</a></li> -->
+                    <li><a href="#solusi">Solusi Kami</a></li>
+                    <li><a href="#fitur">Fitur Utama</a></li>
+                    <li><a href="#demo">Jadwalkan Demo</a></li>
+                    <li><a href="#tentang-kami">Tentang Kami</a></li>
+                    <li><a href="#hubungi-kami">Hubungi Kami</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="gratis.html" class="btn btn-primary">Coba Gratis</a>
+                <a href="login.html" class="btn btn-secondary">Masuk</a>
+                <a href="daftar.html" class="btn btn-secondary">Daftar</a>
+            </div>
+            <button class="mobile-menu-toggle">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
-        <ul class="user-profile-area">
-          <li class="profile-dropdown-trigger">
-              <img src="icon/pexels-moose-photos-170195-1586996.jpg" id="ic" alt="User Profile">
-      
-              <!-- Dropdown menu pindah ke dalam <li> ini -->
-              <ul class="dropdown-logo">
-                  <li><a href="Dashboard.html">Logout</a></li>
-              </ul>
-          </li>
-      </ul>
-      
     </header>
 
-    <!-- Kontainer Utama untuk Sidebar Navigasi dan Konten Dashboard -->
-    <div class="main-layout-container">
-        <!-- Sidebar Navigasi Utama -->
-        <div class="sidebar-nav">
-            <ul class="isi-container">
-                <li class="dashboard">
-                    <img src="icon/dashboard.png" alt="icon" width="40px" height="40px">
-                    <a class="dasherp" href="dashboard_erp.html">Dashboard</a>
-                </li>
-                <li class="perusahaan">
-                    <img src="icon/building (1).png" alt="icon" width="40px" height="40px">
-                    <a class="perus">Perusahaan</a>
-                    <ul class="dropdown">
-                        <li><a href="organisasi.html">Organisasi</a></li>
-                        <li class="has-nested">
-                            <a href="#">Master Data</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="jenis_usaha.html">Jenis Usaha</a></li>
-                                <li><a href="data_akun.html">Data Akun Keuangan</a></li>
-                                <li><a href="data_aset.html">Data Aset</a></li>
-                                <li><a href="data_karyawan.html">Data Karyawan</a></li>
-                                <li><a href="data_mesin.html">Data Mesin</a></li>
-                                <li><a href="data_rawmaterial.html">Data Raw Material</a></li>
-                                <li><a href="data_produk.html">Data Produk</a></li>
-                                <li><a href="data_supplier.html">Data Supplier</a></li>
-                                <li><a href="data_Customer.html">Data Customer</a></li>
-                                <li><a href="data_warehouse.html">Data Warehouse</a></li>
-                                <li><a href="data_pabrik.html">Data Pabrik</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="finance">
-                    <img src="icon/financial-advisor (1).png" alt="icon" width="40px" height="40px">
-                    <a class="fi">Finance </a>
-                    <ul class="dropdown">
-                        <li class="has-nested">
-                            <a href="#">Keuangan</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="keuangan.html#pencatatan_keuangan">Buku Besar</a></li>
-                                <li><a href="#">Jurnal</a></li>
-                                <li><a href="laba-rugi.html">Laporan Laba-Rugi</a></li>
-                                <li><a href="arus-kas.html">Arus Kas</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-nested">
-                            <a href="#">Hutang</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="data_supplier.html">Pemasok</a></li>
-                                <li><a href="hutang-hutang.html">Hutang</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-nested">
-                            <a href="#">Piutang</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="data_customer.html">Pelanggan</a></li>
-                                <li><a href="piutang-piutang.html">Piutang</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-nested">
-                            <a href="#">Aset</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="aset.html">Aset Tetap</a></li>
-                                <li><a href="asetperlokasi.html">Aset Perlokasi</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-nested">
-                            <a href="#">Sales</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="laporan_penjualan.html">Laporan Penjualan</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-nested">
-                            <a href="#">Procurement</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="pengajuan_pengadaan.html">Pengajuan Pengadaan</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="sales">
-                    <img src="icon/growth (2).png" alt="icon" width="40px" height="40px">
-                    <a class="s">Sales</a>
-                    <ul class="dropdown">
-                        <li class="has-nested">
-                            <a href="#">Sales Order</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="sales-order.html">Pesanan Penjualan</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-nested">
-                            <a href="#">Penjualan</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="transaksi_penjualan.html">Transaksi Penjualan</a></li>
-                                <li><a href="manajemen_harga.html">Manajemen Harga</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-nested">
-                            <a href="#">Retur</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="retur_barang.html">Retur Barang</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-nested">
-                            <a href="#">Forecasting</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="#">Ramalan Permintaan</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="procurement">
-                    <img src="icon/procurement (1).png" alt="icon" width="40px" height="40px">
-                    <a class="p">Procurement</a>
-                    <ul class="dropdown">
-                        <li><a href="permintaan_pengadaan.html">Permintaan Pengadaan </a></li>
-                        <li><a href="purchasing_list.html">Purchasing List</a></li>
-                        <li><a href="rekap_retur.html">Rekap retur</a></li>
-                        <li><a href="levering_time.html">Levering Time</a></li>
-                    </ul>
-                </li>
-
-                <li class="warehouse">
-                    <img src="icon/warehouse (2).png" alt="icon" width="40px" height="40px">
-                    <a class="w">warehouse</a>
-                    <ul class="dropdown">
-                        <li class="has-nested">
-                            <a href="#">Permintaan Barang</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="permintaan_barang.html">Pengiriman Barang</a></li>
-                                <li><a href="pengajuan_raw.html">Pengajuan Raw Materials</a></li>
-                                <li><a href="pengajuan_goods.html">Pengajuan finished goods</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-nested">
-                            <a href="#">Lokasi</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="finished_good.html">Finished Goods Warehouse</a></li>
-                                <li><a href="raw_material.html">Raw Materials Warehouse</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="outbound.html">Outbound</a></li>
-                        <li><a href="truckin_out.html">Truck in & truck out</a></li>
-                        <li class="has-nested">
-                            <a href="#">Retur</a>
-                            <ul class="dropdown-nested">
-                                <li><a href="supplier_retur.html">Supplier Return</a></li>
-                                <li><a href="goods_retur.html">Sales Return</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="repacking.html">Repacking</a></li>
-                        <li><a href="stock_opname.html">Penerimaan Barang</a></li>
-                    </ul>
-                </li>
-
-                <li class="production">
-                    <img src="icon/factory (1).png" alt="icon" width="40px" height="40px">
-                    <a class="pr">Production</a>
-                    <ul class="dropdown">
-                        <li><a href="permintaan_produksi.html">Permintaan produksi</a></li>
-                        <li><a href="perencanaan_produksi.html">Perencanaan produksi</a></li>
-                        <li><a href="forecasting_produksi.html">Forecasting</a></li>
-                        <li><a href="mesin.html">Mesin</a></li>
-                        <li><a href="biaya.html">Produksi</a></li>
-                    </ul>
-                </li>
-
-                <li class="human">
-                    <img src="icon/teamwork (2).png" alt="icon" width="40px" height="40px">
-                    <a class="h">Human Resource</a>
-                    <ul class="dropdown">
-                        <li><a href="data_karyawan.html">Divisi</a></li>
-                        <li><a href="payroll.html">Payroll</a></li>
-                        <li><a href="recruiter.html">Recruiter</a></li>
-                    </ul>
-                </li>
-            </ul>
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Integrasikan Pembelajaran, Raih Potensi Maksimal Mahasiswa</h1>
+                <p class="tagline">ERP Edukasi terlengkap untuk kampus, dosen, dan mahasiswa. Efisiensi admin, fokus pada inovasi.</p>
+                <div class="hero-actions">
+                    <a href="#demo" class="btn btn-primary btn-large">Jadwalkan Demo Sekarang</a>
+                    <a href="#fitur" class="btn btn-outline btn-large">Pelajari Fitur <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="hero-image">
+              <img src="icon/student.jpg" alt="Ilustrasi ERP Edukasi, Mahasiswa belajar, data terintegrasi"></div>
         </div>
+    </section>
 
+    <section id="solusi" class="solutions-section">
+        <div class="container">
+            <h2>Solusi Terpadu untuk Ekosistem Pendidikan</h2>
+            <p class="section-description">EduSmart Connect dirancang untuk memenuhi kebutuhan unik setiap elemen di lingkungan kampus.</p>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>Untuk Mahasiswa</h3>
+                    <p>Akses jadwal, nilai, materi kuliah, dan komunitas kampus dalam satu platform intuitif.</p>
+                    <a href="#" class="btn btn-text">Lihat Manfaat Mahasiswa <i class="fas fa-chevron-right"></i></a>
+                </div>
+                <div class="solution-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Untuk Dosen</h3>
+                    <p>Kelola kelas, materi, penilaian, dan komunikasi dengan mahasiswa secara efisien.</p>
+                    <a href="#" class="btn btn-text">Lihat Manfaat Dosen <i class="fas fa-chevron-right"></i></a>
+                </div>
+                <div class="solution-card">
+                    <i class="fas fa-university"></i>
+                    <h3>Untuk Institusi</h3>
+                    <p>Otomatiskan administrasi, analisis data akademik, dan optimalkan sumber daya kampus.</p>
+                    <a href="#" class="btn btn-text">Lihat Manfaat Institusi <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="fitur" class="features-section">
+        <div class="container">
+            <h2>Fitur Utama EduSmart Connect</h2>
+            <p class="section-description">Dirancang untuk menyederhanakan proses dan meningkatkan pengalaman belajar.</p>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h3>Manajemen Jadwal & Kelas</h3>
+                    <p>Pantau jadwal kuliah, ujian, dan kegiatan akademik dengan mudah.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-book-open"></i>
+                    <h3>Perpustakaan Digital & Materi</h3>
+                    <p>Akses jutaan sumber belajar, e-book, dan materi kuliah dari mana saja.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Dashboard Akademik Personal</h3>
+                    <p>Lacak progres belajar, nilai, dan capaian akademik Anda secara real-time.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-users-rectangle"></i>
+                    <h3>Komunitas & Kolaborasi</h3>
+                    <p>Terhubung dengan teman, dosen, dan bergabung dalam proyek grup.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-wallet"></i>
+                    <h3>Manajemen Keuangan Mahasiswa</h3>
+                    <p>Pantau status pembayaran SPP, cicilan, dan dana bantuan.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-briefcase"></i>
+                    <h3>Pusat Karir & Magang</h3>
+                    <p>Temukan informasi lowongan, magang, dan bimbingan karir.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="testimonial" class="testimonial-section">
+        <div class="container">
+            <h2>Apa Kata Mereka?</h2>
+            <p class="section-description">Dampak positif EduSmart Connect pada kampus dan mahasiswa.</p>
+            <div class="testimonial-slider">
+                <div class="testimonial-card">
+                  <img src="icon/avatar1.jpg" alt="Avatar Mahasiswa">
+                  <p class="quote">"EduSmart Connect benar-benar mengubah cara saya belajar. Semua materi dan jadwal ada di satu tempat. Kolaborasi dengan teman jadi lebih mudah!"</p>
+                    <span class="name">- Andi Pratama, Mahasiswa Teknik Informatika</span>
+                </div>
+                <div class="testimonial-card">
+                  <img src="icon/avatar2.jpg" alt="Avatar Dosen">
+                  <p class="quote">"Sebagai dosen, efisiensi adalah kunci. Dengan EduSmart Connect, saya bisa fokus mengajar, bukan lagi direpotkan urusan administrasi."</p>
+                    <span class="name">- Dr. Citra Dewi, Dosen Fakultas Ekonomi</span>
+                </div>
+                </div>
+            <button class="slider-nav prev"><i class="fas fa-chevron-left"></i></button>
+            <button class="slider-nav next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
 
-    
+    <section id="demo" class="cta-demo-section">
+        <div class="container">
+            <h2>Siap Transformasi Kampus Anda?</h2>
+            <p>Jadwalkan demo personal dengan tim kami untuk melihat EduSmart Connect beraksi.</p>
+            <form class="cta-form">
+                <input type="text" placeholder="Nama Institusi Anda" required>
+                <input type="email" placeholder="Email Kantor Anda" required>
+                <button type="submit" class="btn btn-primary">Jadwalkan Demo Gratis</button>
+            </form>
+            <p class="small-text">Atau <a href="gratis.html">coba versi mahasiswa</a> sekarang.</p>
+        </div>
+    </section>
 
-<div class="input-group">
-    <form id="datakaryawan">
-        <label for="id_karyawan">ID Karayawan</label>
-        <input type="int" id="id_karyawan" name="id_karyawan" required>
-        <br>
-        <label for="nama_karyawan">Nama Karyawan</label>
-        <input type="text" id="nama_karyawan" name="nama_karyawan" required>
-        <br>
-        <label for="jabatan_karyawan">Jabatan Karyawan</label>
-        <select name="jabatan_karyawan" id="jabatan_karyawan">
-            <option value="staffa kuntansi"> Staff Akuntansi </option>
-            <option value="akuntan pajak"> Akuntan Pajak </option>
-            <option value="manajer keuangan">Manajer Keuangan </option>
-            <option value="direktur keuangan"> Direktur Keuangan / CFO </option>
-            <option value="staff pemasaran"> Staff Pemasaran </option>
-            <option value="spesialisasi marketing"> Spesialisasi Digital Marketing </option>
-            <option value="manajer pemasaran"> Manajer Pemasaran </option>
-            <option value="kepala departement pemasaran"> Kepala Departemen Pemasaran / CMO </option>
-            <option value="sales executive"> Sales Executive </option>
-            <option value="sales manager"> Sales Manager </option>
-            <option value="kepala departemen penjualan"> Kepala Departemen Penjualan </option>
-            <option value="staff hrd"> Staff HRD </option>
-            <option value="spesialis rekruitmen"> Spesialis Rekruitmen </option>
-            <option value="manajer pelatihan"> Manajer Pelatihan dan Pengembangan </option>
-            <option value="kepala departemen sdm"> Kepala Departemen Sumber Daya Manusia / CHRO </option>
-            <option value="operator produksi"> Operator Produksi </option>
-            <option value="suverpisor produksi"> Supervisor Produksi </option>
-            <option value="manajer operasional"> Manajer Operasional </option>
-            <option value="kepala departemen operasional"> Kepala Departemen Operasional /COO </option>
-            <option value="technical support staff"> Technical Support Staff </option>
-            <option value="software engineer"> Software Engineer </option>
-            <option value="system administrator"> System Administrator </option>
-            <option value="manajer IT"> Manajer IT </option>
-            <option value="kepala departemen TI"> Kepala Departement TI (CIO) </option>
-            <option value="peneliti"> Peneliti </option>
-            <option value="kepala departemen R&D"> Kepala Departemen R&D </option>
-            <option value="staff pembelian"> Staff Pembelian </option>
-            <option value="buyer"> Buyer/Purchaser </option>
-            <option value="manajer pembelian"> Manajer Pembelian </option>
-            <option value="staff logistik"> Staff Logistik </option>
-            <option value="koordinator gudang"> Koordinator Gudang </option>
-            <option value="manajer logistik"> Manajer Logistik </option>
-            <option value="customer service"> Customer Service Representative </option>
-            <option value="legal counsel"> Legal Counsel </option>
-            <option value="general counsel"> General Counsel </option>
-            <option value="staff adminstrasi"> Staff Administrasi </option>
-            <option value="sekretaris"> Sekretaris </option>
-            <option value="kepala departemen administrasi"> Kepala Deparement Adiministrasi </option>
-            <option value="internal auditor"> Internal Auditor </option>
-            <option value="kepala departemen audit internal"> Kepala Departemen Audit Interal </option>
-            <option value="staff quality control"> Staff Quality Control </option>
-            <option value="manajer kualitas"> Manajer Kualitas </option>
-            <option value="kepala departemen kualitas"> Kepala Departemen Kualitas </option>
-            <option value="spesialis komunikasi"> Spesialis Komunikasi </option>
-            <option value="manajer komunikasi"> Manajer Komunikasi </option>
-            <option value="kepala departemen komunikasi"> Kepala Departemen Komunikasi </option>
-            </select>
-        <br>
-        <label for="email_karyawan">Email Karyawan</label>
-        <input type="email" id="email_karyawan" name="email_karyawan" required>
-        <br>
-        <label for="rekening_karyawan">Rekening Karayawan</label>
-        <input type="int" id="rekening_karyawan" name="rekening_karyawan" required>
-        <br>
+    <section id="tentang-kami" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <h2>Tentang EduSmart Connect</h2>
+                <p>Kami adalah pionir dalam solusi ERP edukasi, berdedikasi untuk memberdayakan institusi pendidikan di era digital. Didirikan pada tahun 2018, misi kami adalah menyediakan teknologi terintegrasi yang meningkatkan efisiensi operasional dan kualitas pembelajaran.</p>
+                <p>Tim kami terdiri dari para ahli di bidang pendidikan, teknologi informasi, dan pengembangan perangkat lunak, yang semuanya memiliki visi sama: menciptakan lingkungan belajar yang lebih cerdas dan adaptif untuk masa depan.</p>
+                <a href="#" class="btn btn-outline">Visi & Misi Kami</a>
+            </div>
+            <div class="about-image">
+              <img src="icon/team.jpg" alt="Ilustrasi Tim Bekerja">
+            </div>
+        </div>
+    </section>
 
-        
-        <label for="tgl_masuk_karyawan">Tanggal Masuk</label>
-        <input type="date" id="tgl_masuk_karyawan" name="tgl_masuk_karyawan" required>
-        <br>
-        <label for="npwp_karyawan">NPWP Karyawan</label>
-        <input type="text" id="npwp_karyawan" name="npwp_karyawan" required>
-        <br>
-        <label for="departement">Departemen Karyawan</label>
-        <select name="departement" id="departement">
-            <option value="departemen keuangan"> Departemen Keuangan </option>
-            <option value="departemen pemasaran">Departemen Pemasaran </option>
-            <option value="departemen penjualan"> Departemen Penjualan </option>
-            <option value="departemen sdm"> Departemen Sumber Daya Manusia (HRD) </option>
-            <option value="departemen operasional"> Departemen Operasional </option>
-            <option value="departemen informasi teknologi"> Departemen Teknologi Informasi (TI) </option>
-            <option value="departemen penelitian & pengembangan"> Departemen Penelitian & Pengembangan (R&D) </option>
-            <option value="departemen pembelian"> Departemen Pembelian/Pengadaan </option>
-            <option value="departemen rantai pasok"> Departemen Logistik/Rantai Pasok </option>
-            <option value="departemen layananpe langgan"> Departemen Layanan Pelanggan </option>
-            <option value="departemen hukum"> Departemen Hukum </option>
-            <option value="departemen administrasi"> Departemen Administrasi </option>
-            <option value="departemen audit internal"> Departemen Audit Internal </option>
-            <option value="departemen kualitas"> Departemen Kualitas </option>
-            <option value="departemen komunikasi"> Departemen Komunikasi </option>
+    <section id="hubungi-kami" class="contact-section">
+        <div class="container">
+            <h2>Hubungi Kami</h2>
+            <p class="section-description">Tertarik dengan EduSmart Connect? Mari kita berdiskusi!</p>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Informasi Kontak</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Jl. Teknologi Canggih No. 123, Tangerang Selatan, Banten</p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:info@edusmartconnect.com">info@edusmartconnect.com</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+6281234567890">+62 812-3456-7890</a></p>
+                    <div class="social-links">
+                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.instagram.com/cross.official.id?igsh=aWdveG50dGNoYTFm" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <h3>Kirim Pesan</h3>
+                    <form class="contact-form">
+                        <input type="text" placeholder="Nama Lengkap" required>
+                        <input type="email" placeholder="Email Anda" required>
+                        <textarea placeholder="Pesan Anda" rows="5" required></textarea>
+                        <button type="submit" class="btn btn-primary">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-           </select>
-          
-    </form>
-    <div class="d-flex justify-content-end gap-2">
-      <a href="data_karyawan.html" id="linkSimpan"><button type="button" class="simpan">Simpan</button></a>
-      <a href="data_karyawan.html" id="linkBatal"><button type="button"class="batal">Batal</button></a>
-      </div>
-</div>
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 EduSmart Connect. Hak Cipta Dilindungi.</p>
+                <div class="footer-links">
+                    <a href="#">Kebijakan Privasi</a>
+                    <a href="#">Syarat & Ketentuan</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 
-
-
-
-</div>
-
-<script src="dashboard_erp.js"></script>
+    <script src="dashboard_erp.js"></script>
 </body>
 </html>
