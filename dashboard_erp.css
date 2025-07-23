@@ -696,6 +696,7 @@ border-top-right-radius: 10px;
   }
 
   .input-group {
+  margin-top: -300px;
       padding: 15px;
      margin:auto; /* Kurangi margin horizontal */
       /* KUNCI: Sesuaikan max-height untuk mobile */
